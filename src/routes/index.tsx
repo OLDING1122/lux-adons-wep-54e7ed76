@@ -1,8 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import logoAsset from "@/assets/lux-logo.png.asset.json";
 import knightAsset from "@/assets/knight-castle-lit.png.asset.json";
+import knightVideo from "@/assets/knight-castle.mp4.asset.json";
 
 const DISCORD_URL = "https://discord.gg/lxx";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -70,12 +72,17 @@ function DiscordIcon({ className = "" }: { className?: string }) {
 function Hero() {
   return (
     <section id="home" className="relative min-h-screen overflow-hidden pt-24">
-      {/* Animated background */}
+      {/* Animated video background */}
       <div className="absolute inset-0">
-        <img
-          src={knightAsset.url}
-          alt=""
-          className="absolute inset-0 size-full object-cover opacity-70 animate-slow-zoom"
+        <video
+          src={knightVideo.url}
+          poster={knightAsset.url}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          className="absolute inset-0 size-full object-cover opacity-80"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-background/25 via-background/55 to-background" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_25%,oklch(0.04_0_0)_85%)]" />
