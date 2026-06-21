@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import knightAsset from "@/assets/knight-castle.png.asset.json";
+import knightAsset from "@/assets/knight-castle-lit.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -27,6 +27,37 @@ function Divider({ className = "" }: { className?: string }) {
       <line x1="115" y1="4" x2="200" y2="4" stroke="currentColor" strokeWidth="0.5" />
       <path d="M85 4 L100 0 L115 4 L100 8 Z" stroke="currentColor" strokeWidth="0.6" fill="none" />
     </svg>
+  );
+}
+
+function Snow() {
+  const flakes = Array.from({ length: 70 });
+  return (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden z-[5]">
+      {flakes.map((_, i) => {
+        const left = (i * 37) % 100;
+        const size = 1 + ((i * 7) % 4) * 0.6;
+        const dur = 9 + ((i * 11) % 14);
+        const delay = (i * 0.7) % 12;
+        const drift = ((i % 5) - 2) * 30;
+        const opacity = 0.35 + ((i % 5) * 0.12);
+        return (
+          <span
+            key={i}
+            className="absolute -top-4 rounded-full bg-foreground"
+            style={{
+              left: `${left}%`,
+              width: `${size}px`,
+              height: `${size}px`,
+              opacity,
+              filter: "blur(0.4px)",
+              animation: `snow-fall ${dur}s linear ${delay}s infinite`,
+              ["--drift" as never]: `${drift}px`,
+            } as React.CSSProperties}
+          />
+        );
+      })}
+    </div>
   );
 }
 
@@ -84,6 +115,15 @@ function Hero() {
       {/* Atmosphere overlays */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_40%,transparent_0%,oklch(0.03_0_0/0.55)_70%)]" />
       <div className="absolute inset-0 bg-gradient-hero" />
+
+      {/* Castle glow pulse */}
+      <div
+        className="absolute left-1/2 top-[18%] -translate-x-1/2 size-[40vmin] rounded-full pointer-events-none mix-blend-screen animate-castle-glow"
+        style={{ background: "radial-gradient(circle, oklch(0.98 0 0 / 0.18), transparent 65%)" }}
+      />
+
+      {/* Falling snow */}
+      <Snow />
 
       {/* Inner frame — classical accent on modern layout */}
       <div className="absolute inset-4 md:inset-8 border border-foreground/10 pointer-events-none" />
