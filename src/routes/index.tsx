@@ -160,12 +160,37 @@ function Story() {
         <div dir="rtl" className="space-y-10 font-arabic">
           <div className="relative pr-6 border-r border-white/10">
             <div className="absolute -right-[5px] top-2 size-2.5 rounded-full bg-foreground" />
-            <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-2">البداية</div>
-            <h3 className="font-display text-2xl font-semibold mb-3">ثلاثة أصدقاء، فكرة وحدة</h3>
+            <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-2">البداية · State Addons</div>
+            <h3 className="font-display text-2xl font-semibold mb-3">من State Addons إلى Lux Addons</h3>
             <p className="text-foreground/80 leading-[2] text-[15px]">
-              بدينا كـ <span className="text-foreground font-semibold">ثلاث أشخاص</span> حابين يقدمون شي مميز في مجال الأدونز،
-              وتقديم الأدوات والمساعدات في الألعاب، وتخصيص مجال <span className="text-foreground font-semibold">FiveM</span>.
-              ما كانت البداية سهلة، لكن كانت الرؤية واضحة من أول يوم.
+              في بدايتنا، كنا باسم <span className="text-foreground font-semibold">State Addons</span>،
+              ثلاث أشخاص يجمعهم حلم واحد وهو تقديم شي مختلف في مجال أدونز <span className="text-foreground font-semibold">FiveM</span>.
+              بدينا بإمكانيات بسيطة، وبأدوات محدودة، لكن بشغف كبير ورؤية أكبر.
+            </p>
+          </div>
+
+          <div className="relative pr-6 border-r border-white/10">
+            <div className="absolute -right-[5px] top-2 size-2.5 rounded-full bg-foreground" />
+            <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-2">التغيير · The Rebrand</div>
+            <h3 className="font-display text-2xl font-semibold mb-3">تغيير الهوية، تغيير المسار</h3>
+            <p className="text-foreground/80 leading-[2] text-[15px]">
+              مع التغييرات والتحديثات والرؤية الطموحة، قررنا أن نغيّر الهوية إلى هوية ناجحة
+              بعد <span className="text-foreground font-semibold">مراحل فشل</span> مررنا فيها.
+              ولادة <span className="text-foreground font-semibold">Lux Addons</span> ما كانت مجرد اسم جديد،
+              كانت إعادة تعريف لكل شي: للهدف، للمعايير، وللطموح.
+            </p>
+          </div>
+
+          <div className="relative pr-6 border-r border-white/10">
+            <div className="absolute -right-[5px] top-2 size-2.5 rounded-full bg-foreground" />
+            <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-2">الفشل · The Lesson</div>
+            <h3 className="font-display text-2xl font-semibold mb-3">الفشل ليس النهاية، بل البداية الحقيقية</h3>
+            <p className="text-foreground/80 leading-[2] text-[15px]">
+              الفشل اللي مررنا فيه ما كان فشل الفريق، بل كان <span className="text-foreground font-semibold">أحد أسباب النجاح</span>.
+              تعلّمنا من كل تجربة، ومن كل خطأ، ومن كل لحظة وقفنا فيها وفكّرنا "وش الغلط؟".
+              الفشل علّمنا الصبر، والتغيير علّمنا الشجاعة،
+              والإصرار علّمنا إن الطريق للنجاح ما يمر إلا من بوابة المحاولة والسقوط والقيام من جديد.
+              كل نسخة فاشلة كانت درس، وكل خطوة للخلف كانت تحضير لقفزة أكبر للأمام.
             </p>
           </div>
 
@@ -174,9 +199,10 @@ function Story() {
             <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-2">الانطلاقة</div>
             <h3 className="font-display text-2xl font-semibold mb-3">نجاح مبهر في فترة وجيزة</h3>
             <p className="text-foreground/80 leading-[2] text-[15px]">
-              أصدقاء كوّنوا <span className="text-foreground font-semibold">نجاح مبهر</span> في فترة قصيرة، بفضل العمل الجماعي والإصرار،
-              وبفضل الجندي المجهول <span className="text-foreground font-semibold">AbuHaJeRrR</span> اللي يشتغل طوال السنة في التطوير والتنزيل،
-              وهو صاحب أكبر فضل في نجاح الأدونز، والنجاح يعود إليه مع الطاقم الإداري.
+              بعد التغيير، كوّنّا <span className="text-foreground font-semibold">نجاح مبهر</span> في فترة قصيرة،
+              بفضل العمل الجماعي والإصرار، وبفضل الجندي المجهول <span className="text-foreground font-semibold">AbuHaJeRrR</span>
+              اللي يشتغل طوال السنة في التطوير والتنزيل، وهو صاحب أكبر فضل في نجاح الأدونز،
+              والنجاح يعود إليه مع الطاقم الإداري.
             </p>
           </div>
 
