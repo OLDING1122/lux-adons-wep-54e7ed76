@@ -70,12 +70,17 @@ function DiscordIcon({ className = "" }: { className?: string }) {
 function Hero() {
   return (
     <section id="home" className="relative min-h-screen overflow-hidden pt-24">
-      {/* Background */}
+      {/* Animated background */}
       <div className="absolute inset-0">
-        <img src={knightAsset.url} alt="" className="absolute inset-0 size-full object-cover opacity-30" />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/85 to-background" />
-        <div className="absolute -top-40 -right-40 size-[600px] rounded-full blur-3xl opacity-30 bg-[radial-gradient(circle,oklch(0.55_0.18_260),transparent_60%)]" />
-        <div className="absolute -bottom-40 -left-40 size-[500px] rounded-full blur-3xl opacity-20 bg-[radial-gradient(circle,oklch(0.7_0.15_30),transparent_60%)]" />
+        <img
+          src={knightAsset.url}
+          alt=""
+          className="absolute inset-0 size-full object-cover opacity-70 animate-slow-zoom"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/25 via-background/55 to-background" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_25%,oklch(0.04_0_0)_85%)]" />
+        <div className="absolute -top-40 -right-40 size-[600px] rounded-full blur-3xl opacity-40 bg-[radial-gradient(circle,oklch(0.55_0.18_260),transparent_60%)] animate-castle-glow" />
+        <div className="absolute -bottom-40 -left-40 size-[500px] rounded-full blur-3xl opacity-25 bg-[radial-gradient(circle,oklch(0.7_0.15_30),transparent_60%)] animate-castle-glow" style={{ animationDelay: "2s" }} />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 min-h-[calc(100vh-6rem)] flex flex-col justify-center pb-20">
