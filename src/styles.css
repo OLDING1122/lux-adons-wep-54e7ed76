@@ -125,7 +125,3 @@
 @utility animate-shimmer { animation: shimmer 3s ease-in-out infinite; }
 @utility animate-float-up { animation: float-up 1.2s ease-out both; }
 @utility animate-castle-glow { animation: castle-glow 4s ease-in-out infinite; }
-
-@utility animate-slow-zoom { animation: slow-zoom 24s ease-in-out infinite; }
-@utility animate-shimmer { animation: shimmer 3s ease-in-out infinite; }
-@utility animate-float-up { animation: float-up 1.2s ease-out both; }
