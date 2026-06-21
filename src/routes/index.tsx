@@ -1,8 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import logoAsset from "@/assets/lux-logo.png.asset.json";
 import knightAsset from "@/assets/knight-castle-lit.png.asset.json";
+import knightVideo from "@/assets/knight-castle.mp4.asset.json";
 
 const DISCORD_URL = "https://discord.gg/lxx";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
