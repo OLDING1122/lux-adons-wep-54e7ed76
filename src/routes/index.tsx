@@ -116,6 +116,15 @@ function Hero() {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_40%,transparent_0%,oklch(0.03_0_0/0.55)_70%)]" />
       <div className="absolute inset-0 bg-gradient-hero" />
 
+      {/* Castle glow pulse */}
+      <div
+        className="absolute left-1/2 top-[18%] -translate-x-1/2 size-[40vmin] rounded-full pointer-events-none mix-blend-screen animate-castle-glow"
+        style={{ background: "radial-gradient(circle, oklch(0.98 0 0 / 0.18), transparent 65%)" }}
+      />
+
+      {/* Falling snow */}
+      <Snow />
+
       {/* Inner frame — classical accent on modern layout */}
       <div className="absolute inset-4 md:inset-8 border border-foreground/10 pointer-events-none" />
       <div className="absolute top-4 left-4 md:top-8 md:left-8 size-6 border-l border-t border-foreground/30 pointer-events-none" />
