@@ -70,12 +70,17 @@ function DiscordIcon({ className = "" }: { className?: string }) {
 function Hero() {
   return (
     <section id="home" className="relative min-h-screen overflow-hidden pt-24">
-      {/* Background */}
+      {/* Animated background */}
       <div className="absolute inset-0">
-        <img src={knightAsset.url} alt="" className="absolute inset-0 size-full object-cover opacity-30" />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/85 to-background" />
-        <div className="absolute -top-40 -right-40 size-[600px] rounded-full blur-3xl opacity-30 bg-[radial-gradient(circle,oklch(0.55_0.18_260),transparent_60%)]" />
-        <div className="absolute -bottom-40 -left-40 size-[500px] rounded-full blur-3xl opacity-20 bg-[radial-gradient(circle,oklch(0.7_0.15_30),transparent_60%)]" />
+        <img
+          src={knightAsset.url}
+          alt=""
+          className="absolute inset-0 size-full object-cover opacity-70 animate-slow-zoom"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/25 via-background/55 to-background" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_25%,oklch(0.04_0_0)_85%)]" />
+        <div className="absolute -top-40 -right-40 size-[600px] rounded-full blur-3xl opacity-40 bg-[radial-gradient(circle,oklch(0.55_0.18_260),transparent_60%)] animate-castle-glow" />
+        <div className="absolute -bottom-40 -left-40 size-[500px] rounded-full blur-3xl opacity-25 bg-[radial-gradient(circle,oklch(0.7_0.15_30),transparent_60%)] animate-castle-glow" style={{ animationDelay: "2s" }} />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 min-h-[calc(100vh-6rem)] flex flex-col justify-center pb-20">
@@ -155,12 +160,37 @@ function Story() {
         <div dir="rtl" className="space-y-10 font-arabic">
           <div className="relative pr-6 border-r border-white/10">
             <div className="absolute -right-[5px] top-2 size-2.5 rounded-full bg-foreground" />
-            <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-2">البداية</div>
-            <h3 className="font-display text-2xl font-semibold mb-3">ثلاثة أصدقاء، فكرة وحدة</h3>
+            <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-2">البداية · State Addons</div>
+            <h3 className="font-display text-2xl font-semibold mb-3">من State Addons إلى Lux Addons</h3>
             <p className="text-foreground/80 leading-[2] text-[15px]">
-              بدينا كـ <span className="text-foreground font-semibold">ثلاث أشخاص</span> حابين يقدمون شي مميز في مجال الأدونز،
-              وتقديم الأدوات والمساعدات في الألعاب، وتخصيص مجال <span className="text-foreground font-semibold">FiveM</span>.
-              ما كانت البداية سهلة، لكن كانت الرؤية واضحة من أول يوم.
+              في بدايتنا، كنا باسم <span className="text-foreground font-semibold">State Addons</span>،
+              ثلاث أشخاص يجمعهم حلم واحد وهو تقديم شي مختلف في مجال أدونز <span className="text-foreground font-semibold">FiveM</span>.
+              بدينا بإمكانيات بسيطة، وبأدوات محدودة، لكن بشغف كبير ورؤية أكبر.
+            </p>
+          </div>
+
+          <div className="relative pr-6 border-r border-white/10">
+            <div className="absolute -right-[5px] top-2 size-2.5 rounded-full bg-foreground" />
+            <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-2">التغيير · The Rebrand</div>
+            <h3 className="font-display text-2xl font-semibold mb-3">تغيير الهوية، تغيير المسار</h3>
+            <p className="text-foreground/80 leading-[2] text-[15px]">
+              مع التغييرات والتحديثات والرؤية الطموحة، قررنا أن نغيّر الهوية إلى هوية ناجحة
+              بعد <span className="text-foreground font-semibold">مراحل فشل</span> مررنا فيها.
+              ولادة <span className="text-foreground font-semibold">Lux Addons</span> ما كانت مجرد اسم جديد،
+              كانت إعادة تعريف لكل شي: للهدف، للمعايير، وللطموح.
+            </p>
+          </div>
+
+          <div className="relative pr-6 border-r border-white/10">
+            <div className="absolute -right-[5px] top-2 size-2.5 rounded-full bg-foreground" />
+            <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-2">الفشل · The Lesson</div>
+            <h3 className="font-display text-2xl font-semibold mb-3">الفشل ليس النهاية، بل البداية الحقيقية</h3>
+            <p className="text-foreground/80 leading-[2] text-[15px]">
+              الفشل اللي مررنا فيه ما كان فشل الفريق، بل كان <span className="text-foreground font-semibold">أحد أسباب النجاح</span>.
+              تعلّمنا من كل تجربة، ومن كل خطأ، ومن كل لحظة وقفنا فيها وفكّرنا "وش الغلط؟".
+              الفشل علّمنا الصبر، والتغيير علّمنا الشجاعة،
+              والإصرار علّمنا إن الطريق للنجاح ما يمر إلا من بوابة المحاولة والسقوط والقيام من جديد.
+              كل نسخة فاشلة كانت درس، وكل خطوة للخلف كانت تحضير لقفزة أكبر للأمام.
             </p>
           </div>
 
@@ -169,9 +199,10 @@ function Story() {
             <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-2">الانطلاقة</div>
             <h3 className="font-display text-2xl font-semibold mb-3">نجاح مبهر في فترة وجيزة</h3>
             <p className="text-foreground/80 leading-[2] text-[15px]">
-              أصدقاء كوّنوا <span className="text-foreground font-semibold">نجاح مبهر</span> في فترة قصيرة، بفضل العمل الجماعي والإصرار،
-              وبفضل الجندي المجهول <span className="text-foreground font-semibold">AbuHaJeRrR</span> اللي يشتغل طوال السنة في التطوير والتنزيل،
-              وهو صاحب أكبر فضل في نجاح الأدونز، والنجاح يعود إليه مع الطاقم الإداري.
+              بعد التغيير، كوّنّا <span className="text-foreground font-semibold">نجاح مبهر</span> في فترة قصيرة،
+              بفضل العمل الجماعي والإصرار، وبفضل الجندي المجهول <span className="text-foreground font-semibold">AbuHaJeRrR</span>
+              اللي يشتغل طوال السنة في التطوير والتنزيل، وهو صاحب أكبر فضل في نجاح الأدونز،
+              والنجاح يعود إليه مع الطاقم الإداري.
             </p>
           </div>
 
