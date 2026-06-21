@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import knightAsset from "@/assets/knight-castle.png.asset.json";
+import knightAsset from "@/assets/knight-castle-lit.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -27,6 +27,37 @@ function Divider({ className = "" }: { className?: string }) {
       <line x1="115" y1="4" x2="200" y2="4" stroke="currentColor" strokeWidth="0.5" />
       <path d="M85 4 L100 0 L115 4 L100 8 Z" stroke="currentColor" strokeWidth="0.6" fill="none" />
     </svg>
+  );
+}
+
+function Snow() {
+  const flakes = Array.from({ length: 70 });
+  return (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden z-[5]">
+      {flakes.map((_, i) => {
+        const left = (i * 37) % 100;
+        const size = 1 + ((i * 7) % 4) * 0.6;
+        const dur = 9 + ((i * 11) % 14);
+        const delay = (i * 0.7) % 12;
+        const drift = ((i % 5) - 2) * 30;
+        const opacity = 0.35 + ((i % 5) * 0.12);
+        return (
+          <span
+            key={i}
+            className="absolute -top-4 rounded-full bg-foreground"
+            style={{
+              left: `${left}%`,
+              width: `${size}px`,
+              height: `${size}px`,
+              opacity,
+              filter: "blur(0.4px)",
+              animation: `snow-fall ${dur}s linear ${delay}s infinite`,
+              ["--drift" as never]: `${drift}px`,
+            } as React.CSSProperties}
+          />
+        );
+      })}
+    </div>
   );
 }
 
