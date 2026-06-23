@@ -5,6 +5,16 @@ import knightVideo from "@/assets/knight-night-battle.mp4.asset.json";
 import oldBg from "@/assets/old-bg.jpg.asset.json";
 import abuhajerBg from "@/assets/abuhajer-bg.png.asset.json";
 import bnmansourBg from "@/assets/bnmansour-bg.png.asset.json";
+import ogBg from "@/assets/admins/og.png.asset.json";
+import slimBg from "@/assets/admins/slim.png.asset.json";
+import adBg from "@/assets/admins/ad.png.asset.json";
+import bjjBg from "@/assets/admins/bjj.png.asset.json";
+import n6n5hBg from "@/assets/admins/6n5h.png.asset.json";
+import crowBg from "@/assets/admins/crow.gif.asset.json";
+import y7dBg from "@/assets/admins/y7d.png.asset.json";
+import alhajriBg from "@/assets/admins/alhajri.png.asset.json";
+import mstlBg from "@/assets/admins/mstl.png.asset.json";
+import whyBg from "@/assets/admins/why.png.asset.json";
 
 const DISCORD_URL = "https://discord.gg/lxx";
 
