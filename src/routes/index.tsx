@@ -249,17 +249,17 @@ function Team() {
     { name: "Bn Mansour", role: "Founder · مؤسس", tag: "Operations", bg: bnmansourBg.url, pos: "object-center" },
   ];
 
-  const admins: { name: string; rank: string }[] = [
-    { name: "! OG", rank: "Lux Team · Addons Manager" },
-    { name: "slim shady 👑", rank: "Lux Team · Addons Manager" },
-    { name: "Lux | A D™", rank: "Lux Team · Addons Team" },
-    { name: "! Bjj", rank: "Lux Team · Addons Team" },
-    { name: "6n5h", rank: "Lux Team · Addons Team" },
-    { name: "Crow", rank: "Lux Team · Addons Team" },
-    { name: "y7d", rank: "Lux Team · Addons Team" },
-    { name: "alhajri", rank: "Lux Team · Addons Team" },
-    { name: "! MSTL", rank: "Lux Team · Addons Team" },
-    { name: "Why ?", rank: "Addons Team" },
+  const admins: { name: string; rank: string; bg?: string; pos?: string }[] = [
+    { name: "! OG", rank: "Lux Team · Addons Manager", bg: ogBg.url, pos: "object-center" },
+    { name: "slim shady 👑", rank: "Lux Team · Addons Manager", bg: slimBg.url, pos: "object-center" },
+    { name: "Lux | A D™", rank: "Lux Team · Addons Team", bg: adBg.url, pos: "object-center" },
+    { name: "! Bjj", rank: "Lux Team · Addons Team", bg: bjjBg.url, pos: "object-top" },
+    { name: "6n5h", rank: "Lux Team · Addons Team", bg: n6n5hBg.url, pos: "object-center" },
+    { name: "Crow", rank: "Lux Team · Addons Team", bg: crowBg.url, pos: "object-center" },
+    { name: "y7d", rank: "Lux Team · Addons Team", bg: y7dBg.url, pos: "object-top" },
+    { name: "alhajri", rank: "Lux Team · Addons Team", bg: alhajriBg.url, pos: "object-center" },
+    { name: "! MSTL", rank: "Lux Team · Addons Team", bg: mstlBg.url, pos: "object-center" },
+    { name: "Why ?", rank: "Addons Team", bg: whyBg.url, pos: "object-top" },
     { name: "v4e9", rank: "Lux Team · Addons Team" },
     { name: "M1!", rank: "Addons Team" },
     { name: "M7MD", rank: "Addons Team" },
