@@ -5,6 +5,16 @@ import knightVideo from "@/assets/knight-night-battle.mp4.asset.json";
 import oldBg from "@/assets/old-bg.jpg.asset.json";
 import abuhajerBg from "@/assets/abuhajer-bg.png.asset.json";
 import bnmansourBg from "@/assets/bnmansour-bg.png.asset.json";
+import ogBg from "@/assets/admins/og.png.asset.json";
+import slimBg from "@/assets/admins/slim.png.asset.json";
+import adBg from "@/assets/admins/ad.png.asset.json";
+import bjjBg from "@/assets/admins/bjj.png.asset.json";
+import n6n5hBg from "@/assets/admins/6n5h.png.asset.json";
+import crowBg from "@/assets/admins/crow.gif.asset.json";
+import y7dBg from "@/assets/admins/y7d.png.asset.json";
+import alhajriBg from "@/assets/admins/alhajri.png.asset.json";
+import mstlBg from "@/assets/admins/mstl.png.asset.json";
+import whyBg from "@/assets/admins/why.png.asset.json";
 
 const DISCORD_URL = "https://discord.gg/lxx";
 
@@ -239,17 +249,17 @@ function Team() {
     { name: "Bn Mansour", role: "Founder · مؤسس", tag: "Operations", bg: bnmansourBg.url, pos: "object-center" },
   ];
 
-  const admins: { name: string; rank: string }[] = [
-    { name: "! OG", rank: "Lux Team · Addons Manager" },
-    { name: "slim shady 👑", rank: "Lux Team · Addons Manager" },
-    { name: "Lux | A D™", rank: "Lux Team · Addons Team" },
-    { name: "! Bjj", rank: "Lux Team · Addons Team" },
-    { name: "6n5h", rank: "Lux Team · Addons Team" },
-    { name: "Crow", rank: "Lux Team · Addons Team" },
-    { name: "y7d", rank: "Lux Team · Addons Team" },
-    { name: "alhajri", rank: "Lux Team · Addons Team" },
-    { name: "! MSTL", rank: "Lux Team · Addons Team" },
-    { name: "Why ?", rank: "Addons Team" },
+  const admins: { name: string; rank: string; bg?: string; pos?: string }[] = [
+    { name: "! OG", rank: "Lux Team · Addons Manager", bg: ogBg.url, pos: "object-center" },
+    { name: "slim shady 👑", rank: "Lux Team · Addons Manager", bg: slimBg.url, pos: "object-center" },
+    { name: "Lux | A D™", rank: "Lux Team · Addons Team", bg: adBg.url, pos: "object-center" },
+    { name: "! Bjj", rank: "Lux Team · Addons Team", bg: bjjBg.url, pos: "object-top" },
+    { name: "6n5h", rank: "Lux Team · Addons Team", bg: n6n5hBg.url, pos: "object-center" },
+    { name: "Crow", rank: "Lux Team · Addons Team", bg: crowBg.url, pos: "object-center" },
+    { name: "y7d", rank: "Lux Team · Addons Team", bg: y7dBg.url, pos: "object-top" },
+    { name: "alhajri", rank: "Lux Team · Addons Team", bg: alhajriBg.url, pos: "object-center" },
+    { name: "! MSTL", rank: "Lux Team · Addons Team", bg: mstlBg.url, pos: "object-center" },
+    { name: "Why ?", rank: "Addons Team", bg: whyBg.url, pos: "object-top" },
     { name: "v4e9", rank: "Lux Team · Addons Team" },
     { name: "M1!", rank: "Addons Team" },
     { name: "M7MD", rank: "Addons Team" },
@@ -303,15 +313,22 @@ function Team() {
               key={i}
               className="group relative h-44 rounded-xl border border-white/10 overflow-hidden bg-black hover:border-white/30 transition"
             >
-              {/* Black bg placeholder — backgrounds will be added per-admin later */}
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,oklch(0.15_0_0),oklch(0.04_0_0))]" />
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition bg-[radial-gradient(circle_at_50%_50%,oklch(0.25_0.05_265)/.4,transparent_70%)]" />
+              {a.bg ? (
+                <img
+                  src={a.bg}
+                  alt={a.name}
+                  className={`absolute inset-0 size-full object-cover ${a.pos ?? "object-center"} grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700`}
+                />
+              ) : (
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,oklch(0.15_0_0),oklch(0.04_0_0))]" />
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/20" />
               <div className="relative h-full flex flex-col justify-between p-5">
                 <div className="flex items-center justify-between">
-                  <div className="size-9 rounded-full bg-white/5 ring-1 ring-white/15 grid place-items-center font-display font-bold text-sm text-foreground/90">
+                  <div className="size-9 rounded-full bg-background/60 backdrop-blur ring-1 ring-white/20 grid place-items-center font-display font-bold text-sm text-foreground/90">
                     {a.name.replace(/[^a-zA-Z0-9\u0600-\u06FF]/g, "").charAt(0).toUpperCase() || "•"}
                   </div>
-                  <span className="text-[8px] tracking-[0.3em] uppercase text-muted-foreground">0{(i + 1).toString().padStart(2, "0").slice(-2)}</span>
+                  <span className="text-[8px] tracking-[0.3em] uppercase text-foreground/80 px-2 py-1 rounded-full border border-white/15 bg-background/40 backdrop-blur">0{(i + 1).toString().padStart(2, "0").slice(-2)}</span>
                 </div>
                 <div>
                   <div className="font-display text-lg font-semibold leading-tight truncate">{a.name}</div>
