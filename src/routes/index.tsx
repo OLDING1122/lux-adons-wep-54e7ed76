@@ -238,6 +238,29 @@ function Team() {
     { name: "AbuHaJeRrR", role: "Lead Developer · الجندي المجهول", tag: "Development", bg: abuhajerBg.url, pos: "object-center" },
     { name: "Bn Mansour", role: "Founder · مؤسس", tag: "Operations", bg: bnmansourBg.url, pos: "object-center" },
   ];
+
+  const admins: { name: string; rank: string }[] = [
+    { name: "! OG", rank: "Lux Team · Addons Manager" },
+    { name: "slim shady 👑", rank: "Lux Team · Addons Manager" },
+    { name: "Lux | A D™", rank: "Lux Team · Addons Team" },
+    { name: "! Bjj", rank: "Lux Team · Addons Team" },
+    { name: "6n5h", rank: "Lux Team · Addons Team" },
+    { name: "Crow", rank: "Lux Team · Addons Team" },
+    { name: "y7d", rank: "Lux Team · Addons Team" },
+    { name: "alhajri", rank: "Lux Team · Addons Team" },
+    { name: "! MSTL", rank: "Lux Team · Addons Team" },
+    { name: "Why ?", rank: "Addons Team" },
+    { name: "v4e9", rank: "Lux Team · Addons Team" },
+    { name: "M1!", rank: "Addons Team" },
+    { name: "M7MD", rank: "Addons Team" },
+    { name: "Ro8i", rank: "Addons Team" },
+    { name: "SaEed", rank: "Addons Team" },
+    { name: "بتولي الحب", rank: "Addons Team" },
+    { name: "A", rank: "Addons Team" },
+    { name: "Raindance", rank: "Addons Team" },
+    { name: "Abdullah", rank: "Addons Team" },
+  ];
+
   return (
     <section id="team" className="relative py-28 px-6 md:px-10 border-t border-white/5">
       <div className="max-w-7xl mx-auto">
@@ -266,10 +289,43 @@ function Team() {
             </div>
           ))}
         </div>
+
+        {/* Divider between founders and admin staff */}
+        <div className="mt-24 mb-14 flex items-center gap-6">
+          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+          <div className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground whitespace-nowrap">— Admin Staff · الطاقم الإداري</div>
+          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+        </div>
+
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {admins.map((a, i) => (
+            <div
+              key={i}
+              className="group relative h-44 rounded-xl border border-white/10 overflow-hidden bg-black hover:border-white/30 transition"
+            >
+              {/* Black bg placeholder — backgrounds will be added per-admin later */}
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,oklch(0.15_0_0),oklch(0.04_0_0))]" />
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition bg-[radial-gradient(circle_at_50%_50%,oklch(0.25_0.05_265)/.4,transparent_70%)]" />
+              <div className="relative h-full flex flex-col justify-between p-5">
+                <div className="flex items-center justify-between">
+                  <div className="size-9 rounded-full bg-white/5 ring-1 ring-white/15 grid place-items-center font-display font-bold text-sm text-foreground/90">
+                    {a.name.replace(/[^a-zA-Z0-9\u0600-\u06FF]/g, "").charAt(0).toUpperCase() || "•"}
+                  </div>
+                  <span className="text-[8px] tracking-[0.3em] uppercase text-muted-foreground">0{(i + 1).toString().padStart(2, "0").slice(-2)}</span>
+                </div>
+                <div>
+                  <div className="font-display text-lg font-semibold leading-tight truncate">{a.name}</div>
+                  <div className="text-[11px] text-muted-foreground mt-1 tracking-wide">{a.rank}</div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
 }
+
 
 function CTA() {
   return (
