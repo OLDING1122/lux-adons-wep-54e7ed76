@@ -2,6 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import logoAsset from "@/assets/lux-logo.png.asset.json";
 import knightAsset from "@/assets/knight-castle-lit.png.asset.json";
 import knightVideo from "@/assets/knight-night-battle.mp4.asset.json";
+import oldBg from "@/assets/old-bg.jpg.asset.json";
+import abuhajerBg from "@/assets/abuhajer-bg.png.asset.json";
+import bnmansourBg from "@/assets/bnmansour-bg.png.asset.json";
 
 const DISCORD_URL = "https://discord.gg/lxx";
 
@@ -231,9 +234,9 @@ function Story() {
 
 function Team() {
   const members = [
-    { name: "OLD", role: "Founder · مؤسس", tag: "Vision" },
-    { name: "AbuHaJeRrR", role: "Lead Developer · الجندي المجهول", tag: "Development" },
-    { name: "Bn Mansour", role: "Founder · مؤسس", tag: "Operations" },
+    { name: "OLD", role: "Founder · مؤسس", tag: "Vision", bg: oldBg.url, pos: "object-left" },
+    { name: "AbuHaJeRrR", role: "Lead Developer · الجندي المجهول", tag: "Development", bg: abuhajerBg.url, pos: "object-center" },
+    { name: "Bn Mansour", role: "Founder · مؤسس", tag: "Operations", bg: bnmansourBg.url, pos: "object-center" },
   ];
   return (
     <section id="team" className="relative py-28 px-6 md:px-10 border-t border-white/5">
@@ -244,15 +247,22 @@ function Team() {
 
         <div className="grid md:grid-cols-3 gap-5">
           {members.map((m, i) => (
-            <div key={i} className="group relative p-7 rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.04] to-transparent hover:border-white/25 transition">
-              <div className="flex items-center justify-between mb-8">
-                <div className="size-12 rounded-full bg-foreground/10 ring-1 ring-white/15 grid place-items-center font-display font-bold">
-                  {m.name.charAt(0)}
+            <div key={i} className="group relative h-[420px] rounded-2xl border border-white/10 overflow-hidden hover:border-white/30 transition">
+              <img src={m.bg} alt={m.name} className={`absolute inset-0 size-full object-cover ${m.pos} grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700`} />
+              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-background/10" />
+              <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-background/40" />
+              <div className="relative h-full flex flex-col justify-between p-7">
+                <div className="flex items-center justify-between">
+                  <div className="size-12 rounded-full bg-background/60 backdrop-blur ring-1 ring-white/20 grid place-items-center font-display font-bold">
+                    {m.name.charAt(0)}
+                  </div>
+                  <span className="text-[9px] tracking-[0.3em] uppercase text-foreground/90 px-2 py-1 rounded-full border border-white/20 bg-background/40 backdrop-blur">{m.tag}</span>
                 </div>
-                <span className="text-[9px] tracking-[0.3em] uppercase text-muted-foreground px-2 py-1 rounded-full border border-white/10">{m.tag}</span>
+                <div>
+                  <div className="font-display text-2xl font-semibold">{m.name}</div>
+                  <div className="text-sm text-muted-foreground mt-1">{m.role}</div>
+                </div>
               </div>
-              <div className="font-display text-2xl font-semibold">{m.name}</div>
-              <div className="text-sm text-muted-foreground mt-1">{m.role}</div>
             </div>
           ))}
         </div>
