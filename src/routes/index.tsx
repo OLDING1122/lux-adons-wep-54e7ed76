@@ -313,15 +313,22 @@ function Team() {
               key={i}
               className="group relative h-44 rounded-xl border border-white/10 overflow-hidden bg-black hover:border-white/30 transition"
             >
-              {/* Black bg placeholder — backgrounds will be added per-admin later */}
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,oklch(0.15_0_0),oklch(0.04_0_0))]" />
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition bg-[radial-gradient(circle_at_50%_50%,oklch(0.25_0.05_265)/.4,transparent_70%)]" />
+              {a.bg ? (
+                <img
+                  src={a.bg}
+                  alt={a.name}
+                  className={`absolute inset-0 size-full object-cover ${a.pos ?? "object-center"} grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700`}
+                />
+              ) : (
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,oklch(0.15_0_0),oklch(0.04_0_0))]" />
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/20" />
               <div className="relative h-full flex flex-col justify-between p-5">
                 <div className="flex items-center justify-between">
-                  <div className="size-9 rounded-full bg-white/5 ring-1 ring-white/15 grid place-items-center font-display font-bold text-sm text-foreground/90">
+                  <div className="size-9 rounded-full bg-background/60 backdrop-blur ring-1 ring-white/20 grid place-items-center font-display font-bold text-sm text-foreground/90">
                     {a.name.replace(/[^a-zA-Z0-9\u0600-\u06FF]/g, "").charAt(0).toUpperCase() || "•"}
                   </div>
-                  <span className="text-[8px] tracking-[0.3em] uppercase text-muted-foreground">0{(i + 1).toString().padStart(2, "0").slice(-2)}</span>
+                  <span className="text-[8px] tracking-[0.3em] uppercase text-foreground/80 px-2 py-1 rounded-full border border-white/15 bg-background/40 backdrop-blur">0{(i + 1).toString().padStart(2, "0").slice(-2)}</span>
                 </div>
                 <div>
                   <div className="font-display text-lg font-semibold leading-tight truncate">{a.name}</div>
