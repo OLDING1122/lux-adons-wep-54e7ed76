@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import logoAsset from "@/assets/lux-logo.png.asset.json";
 import knightAsset from "@/assets/knight-castle-lit.png.asset.json";
-import knightVideo from "@/assets/knight-night-battle.mp4.asset.json";
+import knightVideo from "@/assets/knights-night-battle.mp4.asset.json";
 import oldBg from "@/assets/old-bg.jpg.asset.json";
 import abuhajerBg from "@/assets/abuhajer-bg.png.asset.json";
 import bnmansourBg from "@/assets/bnmansour-bg.png.asset.json";
@@ -25,7 +25,8 @@ import aBg from "@/assets/admins/a.png.asset.json";
 import raindanceBg from "@/assets/admins/raindance.png.asset.json";
 import abdullahBg from "@/assets/admins/abdullah.png.asset.json";
 
-const DISCORD_URL = "https://discord.gg/lxx";
+const DISCORD_URL = "https://discord.gg/3RwEkB6k94";
+const STORE_URL = "https://luxaddons.rmz.gg/";
 
 
 export const Route = createFileRoute("/")({
@@ -66,6 +67,7 @@ function Navbar() {
         <Logo />
         <ul className="hidden md:flex items-center gap-9 text-[11px] tracking-[0.28em] uppercase text-muted-foreground">
           <li><a href="#home" className="hover:text-foreground transition">Home</a></li>
+          <li><a href={STORE_URL} target="_blank" rel="noreferrer" className="font-arabic hover:text-foreground transition">المتجر</a></li>
           <li><a href="#story" className="hover:text-foreground transition">Story</a></li>
           <li><a href="#stats" className="hover:text-foreground transition">Stats</a></li>
           <li><a href="#team" className="hover:text-foreground transition">Team</a></li>
@@ -104,7 +106,7 @@ function Hero() {
           loop
           playsInline
           preload="auto"
-          className="absolute inset-0 size-full object-cover opacity-80"
+          className="absolute inset-0 size-full object-cover opacity-65"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-background/25 via-background/55 to-background" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_25%,oklch(0.04_0_0)_85%)]" />
@@ -130,7 +132,7 @@ function Hero() {
           <a href={DISCORD_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-3 h-12 px-7 rounded-full bg-foreground text-background text-[12px] tracking-[0.25em] uppercase font-semibold hover:scale-[1.02] transition">
             <DiscordIcon className="size-4" /> Join Discord
           </a>
-          <a href="#story" className="inline-flex items-center gap-2 h-12 px-7 rounded-full border border-white/15 text-foreground text-[12px] tracking-[0.25em] uppercase font-medium hover:bg-white/5 transition">
+          <a href={STORE_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 h-12 px-7 rounded-full border border-white/15 text-foreground text-[12px] tracking-[0.25em] uppercase font-medium hover:bg-white/5 transition">
             STORE LUX →
           </a>
         </div>
