@@ -15,6 +15,15 @@ import y7dBg from "@/assets/admins/y7d.png.asset.json";
 import alhajriBg from "@/assets/admins/alhajri.png.asset.json";
 import mstlBg from "@/assets/admins/mstl.png.asset.json";
 import whyBg from "@/assets/admins/why.png.asset.json";
+import v4e9Bg from "@/assets/admins/v4e9.png.asset.json";
+import m1Bg from "@/assets/admins/m1.png.asset.json";
+import m7mdBg from "@/assets/admins/m7md.png.asset.json";
+import ro8iBg from "@/assets/admins/ro8i.png.asset.json";
+import saeedBg from "@/assets/admins/saeed.png.asset.json";
+import btolyBg from "@/assets/admins/btoly.png.asset.json";
+import aBg from "@/assets/admins/a.png.asset.json";
+import raindanceBg from "@/assets/admins/raindance.png.asset.json";
+import abdullahBg from "@/assets/admins/abdullah.png.asset.json";
 
 const DISCORD_URL = "https://discord.gg/lxx";
 
