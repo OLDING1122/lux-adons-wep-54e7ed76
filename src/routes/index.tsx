@@ -106,7 +106,7 @@ function Hero() {
           loop
           playsInline
           preload="auto"
-          className="absolute inset-0 size-full object-cover opacity-80"
+          className="absolute inset-0 size-full object-cover opacity-65"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-background/25 via-background/55 to-background" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_25%,oklch(0.04_0_0)_85%)]" />
