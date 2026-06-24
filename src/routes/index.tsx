@@ -25,7 +25,8 @@ import aBg from "@/assets/admins/a.png.asset.json";
 import raindanceBg from "@/assets/admins/raindance.png.asset.json";
 import abdullahBg from "@/assets/admins/abdullah.png.asset.json";
 
-const DISCORD_URL = "https://discord.gg/lxx";
+const DISCORD_URL = "https://discord.gg/3RwEkB6k94";
+const STORE_URL = "https://luxaddons.rmz.gg/";
 
 
 export const Route = createFileRoute("/")({
