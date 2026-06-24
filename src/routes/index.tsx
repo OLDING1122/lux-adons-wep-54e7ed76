@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import logoAsset from "@/assets/lux-logo.png.asset.json";
 import knightAsset from "@/assets/knight-castle-lit.png.asset.json";
-import knightVideo from "@/assets/knight-night-battle.mp4.asset.json";
+import knightVideo from "@/assets/knights-night-battle.mp4.asset.json";
 import oldBg from "@/assets/old-bg.jpg.asset.json";
 import abuhajerBg from "@/assets/abuhajer-bg.png.asset.json";
 import bnmansourBg from "@/assets/bnmansour-bg.png.asset.json";
