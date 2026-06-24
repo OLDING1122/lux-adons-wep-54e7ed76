@@ -67,6 +67,7 @@ function Navbar() {
         <Logo />
         <ul className="hidden md:flex items-center gap-9 text-[11px] tracking-[0.28em] uppercase text-muted-foreground">
           <li><a href="#home" className="hover:text-foreground transition">Home</a></li>
+          <li><a href={STORE_URL} target="_blank" rel="noreferrer" className="font-arabic hover:text-foreground transition">المتجر</a></li>
           <li><a href="#story" className="hover:text-foreground transition">Story</a></li>
           <li><a href="#stats" className="hover:text-foreground transition">Stats</a></li>
           <li><a href="#team" className="hover:text-foreground transition">Team</a></li>
