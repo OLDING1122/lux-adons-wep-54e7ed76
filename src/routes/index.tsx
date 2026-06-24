@@ -15,6 +15,15 @@ import y7dBg from "@/assets/admins/y7d.png.asset.json";
 import alhajriBg from "@/assets/admins/alhajri.png.asset.json";
 import mstlBg from "@/assets/admins/mstl.png.asset.json";
 import whyBg from "@/assets/admins/why.png.asset.json";
+import v4e9Bg from "@/assets/admins/v4e9.png.asset.json";
+import m1Bg from "@/assets/admins/m1.png.asset.json";
+import m7mdBg from "@/assets/admins/m7md.png.asset.json";
+import ro8iBg from "@/assets/admins/ro8i.png.asset.json";
+import saeedBg from "@/assets/admins/saeed.png.asset.json";
+import btolyBg from "@/assets/admins/btoly.png.asset.json";
+import aBg from "@/assets/admins/a.png.asset.json";
+import raindanceBg from "@/assets/admins/raindance.png.asset.json";
+import abdullahBg from "@/assets/admins/abdullah.png.asset.json";
 
 const DISCORD_URL = "https://discord.gg/lxx";
 
@@ -260,15 +269,15 @@ function Team() {
     { name: "alhajri", rank: "Lux Team · Addons Team", bg: alhajriBg.url, pos: "object-center" },
     { name: "! MSTL", rank: "Lux Team · Addons Team", bg: mstlBg.url, pos: "object-center" },
     { name: "Why ?", rank: "Addons Team", bg: whyBg.url, pos: "object-top" },
-    { name: "v4e9", rank: "Lux Team · Addons Team" },
-    { name: "M1!", rank: "Addons Team" },
-    { name: "M7MD", rank: "Addons Team" },
-    { name: "Ro8i", rank: "Addons Team" },
-    { name: "SaEed", rank: "Addons Team" },
-    { name: "بتولي الحب", rank: "Addons Team" },
-    { name: "A", rank: "Addons Team" },
-    { name: "Raindance", rank: "Addons Team" },
-    { name: "Abdullah", rank: "Addons Team" },
+    { name: "v4e9", rank: "Lux Team · Addons Team", bg: v4e9Bg.url, pos: "object-center" },
+    { name: "M1!", rank: "Addons Team", bg: m1Bg.url, pos: "object-center" },
+    { name: "M7MD", rank: "Addons Team", bg: m7mdBg.url, pos: "object-top" },
+    { name: "Ro8i", rank: "Addons Team", bg: ro8iBg.url, pos: "object-center" },
+    { name: "SaEed", rank: "Addons Team", bg: saeedBg.url, pos: "object-center" },
+    { name: "بتولي الحب", rank: "Addons Team", bg: btolyBg.url, pos: "object-center" },
+    { name: "A", rank: "Addons Team", bg: aBg.url, pos: "object-center" },
+    { name: "Raindance", rank: "Addons Team", bg: raindanceBg.url, pos: "object-center" },
+    { name: "Abdullah", rank: "Addons Team", bg: abdullahBg.url, pos: "object-center" },
   ];
 
   return (
