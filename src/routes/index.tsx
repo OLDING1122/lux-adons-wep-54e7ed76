@@ -131,7 +131,7 @@ function Hero() {
             <DiscordIcon className="size-4" /> Join Discord
           </a>
           <a href="#story" className="inline-flex items-center gap-2 h-12 px-7 rounded-full border border-white/15 text-foreground text-[12px] tracking-[0.25em] uppercase font-medium hover:bg-white/5 transition">
-            Our Story →
+            STORE LUX →
           </a>
         </div>
       </div>
@@ -141,9 +141,9 @@ function Hero() {
 
 function Stats() {
   const items = [
-    { value: "7,084", label: "Offline Addons", sub: "أدونز جاهزة للتحميل" },
+    { value: "7,084", label: "Offline Addons", sub: "أدونز غير نشط " },
     { value: "2,691", label: "Online Addons", sub: "أدونز نشطة الآن" },
-    { value: "9,775", label: "Total Released", sub: "إجمالي الإصدارات" },
+    { value: "9,775", label: "Total Released", sub: "إجمالي الانشطه " },
   ];
   return (
     <section id="stats" className="relative py-28 px-6 md:px-10">
@@ -229,9 +229,7 @@ function Story() {
             <h3 className="font-display text-2xl font-semibold mb-3">نجاح مبهر في فترة وجيزة</h3>
             <p className="text-foreground/80 leading-[2] text-[15px]">
               بعد التغيير، كوّنّا <span className="text-foreground font-semibold">نجاح مبهر</span> في فترة قصيرة،
-              بفضل العمل الجماعي والإصرار، وبفضل الجندي المجهول <span className="text-foreground font-semibold">AbuHaJeRrR</span>
-              اللي يشتغل طوال السنة في التطوير والتنزيل، وهو صاحب أكبر فضل في نجاح الأدونز،
-              والنجاح يعود إليه مع الطاقم الإداري.
+              بفضل العمل الجماعي والإصرار، وبفضل الجندي المجهول <span className="text-foreground font-semibold">AbuHaJeRrR</span>&nbsp;&nbsp;الذي&nbsp;&nbsp;يشتغل طوال السنة في التطوير والتنزيل، وهو صاحب الفضل الأكبر&nbsp;&nbsp;في نجاح الأدونز، والنجاح يعود إليه مع الطاقم الإداري&nbsp; .
             </p>
           </div>
 
