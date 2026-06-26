@@ -610,6 +610,7 @@ function Index() {
         <Stats />
         <Story />
         <Team />
+        <Streams />
         <CTA />
       </main>
       <Footer />
