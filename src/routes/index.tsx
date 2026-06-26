@@ -481,50 +481,45 @@ function Streams() {
         <p dir="rtl" className="font-arabic text-muted-foreground max-w-xl mb-12">بثوث طاقم Lux على منصة Kick — تحدث تلقائياً كل دقيقة.</p>
 
         <div className="grid lg:grid-cols-[1.6fr_1fr] gap-6">
-          {/* Live grid */}
+          {/* Live grid — embedded Kick players */}
           <div className="grid sm:grid-cols-2 gap-4">
             {streams.map((s) => (
-              <a
+              <div
                 key={s.slug}
-                href={`https://kick.com/${s.slug}`}
-                target="_blank"
-                rel="noreferrer"
-                className="group relative h-56 rounded-xl border border-white/10 overflow-hidden bg-black hover:border-white/30 transition"
+                className="group relative aspect-video rounded-xl border border-white/10 overflow-hidden bg-black hover:border-white/30 transition"
               >
-                {s.isLive && s.thumbnail ? (
-                  <img src={s.thumbnail} alt={s.title} className="absolute inset-0 size-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                ) : (
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,oklch(0.15_0_0),oklch(0.04_0_0))]" />
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-background/10" />
-                <div className="relative h-full flex flex-col justify-between p-5">
-                  <div className="flex items-center justify-between">
-                    {s.isLive ? (
-                      <span className="inline-flex items-center gap-1.5 text-[9px] tracking-[0.3em] uppercase text-foreground px-2 py-1 rounded-full border border-white/25 bg-background/50 backdrop-blur">
-                        <span className="size-1.5 rounded-full bg-red-500 animate-pulse" /> Live
-                      </span>
-                    ) : (
-                      <span className="text-[9px] tracking-[0.3em] uppercase text-muted-foreground px-2 py-1 rounded-full border border-white/10 bg-background/40 backdrop-blur">Offline</span>
-                    )}
-                    {s.isLive && typeof s.viewers === "number" && (
-                      <span className="text-[10px] tabular-nums tracking-wider text-foreground/90 px-2 py-1 rounded-full border border-white/15 bg-background/40 backdrop-blur">
-                        {s.viewers.toLocaleString()} 👁
-                      </span>
-                    )}
-                  </div>
-                  <div>
-                    <div className="font-display text-lg font-semibold leading-tight truncate">@{s.slug}</div>
-                    <div className="text-[12px] text-muted-foreground mt-1 line-clamp-2">
-                      {s.isLive ? s.title || "Streaming now" : "غير متصل"}
-                    </div>
-                    {s.isLive && s.category && (
-                      <div className="text-[10px] tracking-[0.2em] uppercase text-foreground/70 mt-2">{s.category}</div>
-                    )}
-                  </div>
+                <iframe
+                  src={`https://player.kick.com/${s.slug}?muted=true&autoplay=false`}
+                  title={`${s.slug} — Kick stream`}
+                  allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="absolute inset-0 size-full"
+                />
+                {/* Channel chip overlay — pointer-events-none so the player stays clickable */}
+                <div className="pointer-events-none absolute top-2 left-2 right-2 flex items-center justify-between gap-2">
+                  <a
+                    href={`https://kick.com/${s.slug}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="pointer-events-auto inline-flex items-center gap-1.5 text-[10px] tracking-[0.25em] uppercase font-display font-semibold text-foreground px-2.5 py-1 rounded-full border border-white/20 bg-background/70 backdrop-blur hover:border-white/40 transition"
+                  >
+                    <KickIcon className="size-2.5" /> @{s.slug}
+                  </a>
+                  {s.isLive && (
+                    <span className="inline-flex items-center gap-1.5 text-[9px] tracking-[0.3em] uppercase text-foreground px-2 py-1 rounded-full border border-white/25 bg-background/60 backdrop-blur">
+                      <span className="size-1.5 rounded-full bg-red-500 animate-pulse" /> Live
+                      {typeof s.viewers === "number" && (
+                        <span className="tabular-nums text-foreground/80 ml-1">{s.viewers.toLocaleString()}</span>
+                      )}
+                    </span>
+                  )}
                 </div>
-              </a>
+              </div>
             ))}
           </div>
+
 
           {/* Archive */}
           <aside className="rounded-xl border border-white/10 bg-white/[0.02] p-5">
