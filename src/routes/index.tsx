@@ -353,6 +353,225 @@ function Team() {
   );
 }
 
+const KICK_CHANNELS = ["y7dd", "q5mv", "iabuhajeri", "osamah", "abuswe7l", "sxb"];
+const ARCHIVE_KEY = "lux_kick_archive_v1";
+const ARCHIVE_MAX = 12;
+
+type LiveInfo = {
+  slug: string;
+  isLive: boolean;
+  title?: string;
+  viewers?: number;
+  thumbnail?: string;
+  category?: string;
+  startedAt?: string;
+};
+
+type ArchiveItem = {
+  slug: string;
+  title: string;
+  thumbnail?: string;
+  category?: string;
+  endedAt: string;
+};
+
+function KickIcon({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 32 32" fill="currentColor" className={className} aria-hidden>
+      <path d="M4 4h6v8h2V8h2V6h2V4h6v4h-2v2h-2v2h-2v4h2v2h2v2h2v4h-6v-2h-2v-2h-2v-4h-2v8H4V4z" />
+    </svg>
+  );
+}
+
+function Streams() {
+  const [streams, setStreams] = useState<LiveInfo[]>(
+    KICK_CHANNELS.map((s) => ({ slug: s, isLive: false }))
+  );
+  const [archive, setArchive] = useState<ArchiveItem[]>([]);
+
+  // load archive from storage
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(ARCHIVE_KEY);
+      if (raw) setArchive(JSON.parse(raw));
+    } catch {}
+  }, []);
+
+  // poll kick
+  useEffect(() => {
+    let cancelled = false;
+    let prev: Record<string, LiveInfo> = {};
+
+    const fetchOne = async (slug: string): Promise<LiveInfo> => {
+      try {
+        const res = await fetch(`https://kick.com/api/v2/channels/${slug}`, {
+          headers: { Accept: "application/json" },
+        });
+        if (!res.ok) return { slug, isLive: false };
+        const data = await res.json();
+        const ls = data?.livestream;
+        if (!ls) return { slug, isLive: false };
+        return {
+          slug,
+          isLive: true,
+          title: ls.session_title || ls.slug,
+          viewers: ls.viewer_count,
+          thumbnail: ls.thumbnail?.url || ls.thumbnail?.src,
+          category: ls.categories?.[0]?.name,
+          startedAt: ls.created_at,
+        };
+      } catch {
+        return { slug, isLive: false };
+      }
+    };
+
+    const tick = async () => {
+      const results = await Promise.all(KICK_CHANNELS.map(fetchOne));
+      if (cancelled) return;
+
+      // detect endings → push to archive
+      const newlyEnded: ArchiveItem[] = [];
+      for (const r of results) {
+        const before = prev[r.slug];
+        if (before?.isLive && !r.isLive) {
+          newlyEnded.push({
+            slug: before.slug,
+            title: before.title || before.slug,
+            thumbnail: before.thumbnail,
+            category: before.category,
+            endedAt: new Date().toISOString(),
+          });
+        }
+      }
+      if (newlyEnded.length) {
+        setArchive((curr) => {
+          const next = [...newlyEnded, ...curr].slice(0, ARCHIVE_MAX);
+          try { localStorage.setItem(ARCHIVE_KEY, JSON.stringify(next)); } catch {}
+          return next;
+        });
+      }
+
+      prev = Object.fromEntries(results.map((r) => [r.slug, r]));
+      setStreams(results);
+    };
+
+    tick();
+    const id = setInterval(tick, 60_000);
+    return () => { cancelled = true; clearInterval(id); };
+  }, []);
+
+  const liveCount = streams.filter((s) => s.isLive).length;
+
+  return (
+    <section id="streams" className="relative py-28 px-6 md:px-10 border-t border-white/5">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex items-end justify-between flex-wrap gap-4 mb-3">
+          <div>
+            <div className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground mb-3 flex items-center gap-2">
+              <KickIcon className="size-3" /> — Kick Streams
+            </div>
+            <h2 className="font-display text-4xl md:text-6xl font-bold tracking-tight">Live on Kick</h2>
+          </div>
+          <div className="inline-flex items-center gap-2 text-[10px] tracking-[0.4em] uppercase text-muted-foreground">
+            <span className={`size-1.5 rounded-full ${liveCount > 0 ? "bg-emerald-400 animate-pulse" : "bg-white/30"}`} />
+            {liveCount} Live · {KICK_CHANNELS.length} Channels
+          </div>
+        </div>
+        <p dir="rtl" className="font-arabic text-muted-foreground max-w-xl mb-12">بثوث طاقم Lux على منصة Kick — تحدث تلقائياً كل دقيقة.</p>
+
+        <div className="grid lg:grid-cols-[1.6fr_1fr] gap-6">
+          {/* Live grid */}
+          <div className="grid sm:grid-cols-2 gap-4">
+            {streams.map((s) => (
+              <a
+                key={s.slug}
+                href={`https://kick.com/${s.slug}`}
+                target="_blank"
+                rel="noreferrer"
+                className="group relative h-56 rounded-xl border border-white/10 overflow-hidden bg-black hover:border-white/30 transition"
+              >
+                {s.isLive && s.thumbnail ? (
+                  <img src={s.thumbnail} alt={s.title} className="absolute inset-0 size-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                ) : (
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,oklch(0.15_0_0),oklch(0.04_0_0))]" />
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-background/10" />
+                <div className="relative h-full flex flex-col justify-between p-5">
+                  <div className="flex items-center justify-between">
+                    {s.isLive ? (
+                      <span className="inline-flex items-center gap-1.5 text-[9px] tracking-[0.3em] uppercase text-foreground px-2 py-1 rounded-full border border-white/25 bg-background/50 backdrop-blur">
+                        <span className="size-1.5 rounded-full bg-red-500 animate-pulse" /> Live
+                      </span>
+                    ) : (
+                      <span className="text-[9px] tracking-[0.3em] uppercase text-muted-foreground px-2 py-1 rounded-full border border-white/10 bg-background/40 backdrop-blur">Offline</span>
+                    )}
+                    {s.isLive && typeof s.viewers === "number" && (
+                      <span className="text-[10px] tabular-nums tracking-wider text-foreground/90 px-2 py-1 rounded-full border border-white/15 bg-background/40 backdrop-blur">
+                        {s.viewers.toLocaleString()} 👁
+                      </span>
+                    )}
+                  </div>
+                  <div>
+                    <div className="font-display text-lg font-semibold leading-tight truncate">@{s.slug}</div>
+                    <div className="text-[12px] text-muted-foreground mt-1 line-clamp-2">
+                      {s.isLive ? s.title || "Streaming now" : "غير متصل"}
+                    </div>
+                    {s.isLive && s.category && (
+                      <div className="text-[10px] tracking-[0.2em] uppercase text-foreground/70 mt-2">{s.category}</div>
+                    )}
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+
+          {/* Archive */}
+          <aside className="rounded-xl border border-white/10 bg-white/[0.02] p-5">
+            <div className="flex items-center justify-between mb-4">
+              <div className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground">— Recent · بثوث سابقة</div>
+              <span className="text-[10px] text-muted-foreground tabular-nums">{archive.length}</span>
+            </div>
+            {archive.length === 0 ? (
+              <div dir="rtl" className="font-arabic text-sm text-muted-foreground py-10 text-center">
+                لا توجد بثوث محفوظة بعد. سيتم حفظ البثوث تلقائياً عند انتهائها.
+              </div>
+            ) : (
+              <ul className="space-y-3 max-h-[26rem] overflow-y-auto pr-1">
+                {archive.map((a, i) => (
+                  <li key={i}>
+                    <a
+                      href={`https://kick.com/${a.slug}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex items-center gap-3 p-2 rounded-lg border border-white/5 hover:border-white/20 hover:bg-white/[0.03] transition"
+                    >
+                      <div className="relative size-14 shrink-0 rounded-md overflow-hidden bg-black">
+                        {a.thumbnail ? (
+                          <img src={a.thumbnail} alt={a.title} className="size-full object-cover grayscale" />
+                        ) : (
+                          <div className="size-full bg-[radial-gradient(circle,oklch(0.15_0_0),oklch(0.04_0_0))]" />
+                        )}
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <div className="text-[13px] font-medium truncate">@{a.slug}</div>
+                        <div className="text-[11px] text-muted-foreground truncate">{a.title}</div>
+                        <div className="text-[9px] tracking-[0.2em] uppercase text-muted-foreground mt-0.5">
+                          {new Date(a.endedAt).toLocaleString("ar", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "short" })}
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </aside>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
 
 function CTA() {
   return (
