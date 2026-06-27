@@ -1,5 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useRef, useState } from "react";
+import { useChat } from "@ai-sdk/react";
+import { DefaultChatTransport } from "ai";
 import logoAsset from "@/assets/lux-logo.png.asset.json";
 import knightAsset from "@/assets/knight-castle-lit.png.asset.json";
 import knightVideo from "@/assets/knights-night-battle.mp4.asset.json";
@@ -73,15 +75,15 @@ function Navbar() {
     <header className="fixed top-0 inset-x-0 z-50 backdrop-blur-xl bg-background/50 border-b border-white/5">
       <nav className="max-w-7xl mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
         <Logo />
-        <ul className="hidden md:flex items-center gap-9 text-[11px] tracking-[0.28em] uppercase text-muted-foreground">
+        <ul className="hidden md:flex items-center gap-7 text-[11px] tracking-[0.28em] uppercase text-muted-foreground">
           <li><a href="#home" className="hover:text-foreground transition">Home</a></li>
           <li><a href={STORE_URL} target="_blank" rel="noreferrer" className="font-arabic hover:text-foreground transition">المتجر</a></li>
           <li><a href="#story" className="hover:text-foreground transition">Story</a></li>
-          <li><a href="#stats" className="hover:text-foreground transition">Stats</a></li>
           <li><a href="#team" className="hover:text-foreground transition">Team</a></li>
           <li><a href="#roadmap" className="hover:text-foreground transition">Roadmap</a></li>
-          <li><a href="#patch" className="hover:text-foreground transition">Patch</a></li>
           <li><a href="#streams" className="hover:text-foreground transition">Streams</a></li>
+          <li><a href="#faq" className="hover:text-foreground transition">FAQ</a></li>
+          <li><Link to="/rules" className="hover:text-foreground transition">Rules</Link></li>
         </ul>
         <a
           href={DISCORD_URL}
@@ -802,12 +804,269 @@ function CTA() {
   );
 }
 
+function FAQ() {
+  const items = [
+    {
+      q: "كيف أركّب Reshade على FiveM؟",
+      a: [
+        "حمّل أحدث نسخة Reshade من الموقع الرسمي reshade.me.",
+        "شغّل المثبّت → اختر ملف FiveM.exe من مجلد LocalAppData/FiveM/FiveM.app.",
+        "اختر DirectX 11 → ثم اختر باقة Shaders المطلوبة (SweetFX، qUINT…).",
+        "حمّل البريسيت الخاص بـ Lux من المتجر وحطّه في نفس مجلد FiveM.exe.",
+        "افتح اللعبة → اضغط Home لفتح Reshade → اختر البريسيت من القائمة العلوية.",
+        "في حال شاشة سوداء: عطّل الـDepth Buffer من إعدادات Reshade أو شغّل اللعبة بـDX12.",
+      ],
+    },
+    {
+      q: "كيف أركّب GRFX؟",
+      a: [
+        "افتح مجلد FiveM Application Data → citizen → platform → levels → gta5.",
+        "احفظ نسخة احتياطية من ملفات timecycle و visualsettings.dat.",
+        "افتح ملف الـGRFX المضغوط ثم اسحب الملفات إلى المسار الصحيح حسب README.",
+        "أعد تشغيل FiveM. لو ما اشتغل: تأكّد إن لا يوجد addon آخر يستبدل نفس الملفات.",
+      ],
+    },
+    {
+      q: "كيف أركّب SoundFX / أصوات الأسلحة؟",
+      a: [
+        "افتح OpenIV ثم فعّل Edit Mode.",
+        "اذهب إلى mods → update → x64 → audio → sfx → WEAPONS_PLAYER.rpf.",
+        "اسحب ملفات الصوت الجديدة (.awc) إلى داخل الـRPF.",
+        "أعد بناء الفهرس ثم شغّل FiveM. لو طلع خطأ: تأكّد إن النسخة متوافقة مع تحديث GTA الحالي.",
+      ],
+    },
+    {
+      q: "كيف أركّب Sound Mk2 و Sound Heavy؟",
+      a: [
+        "نفس خطوات SoundFX، لكن استبدل ملفات أسلحة الـMk2 من مجلد DLCPacks → mpgunrunning.",
+        "Sound Heavy يحتاج تفعيل DLC الخاص بالأسلحة الثقيلة (Heavy Sniper, Minigun…).",
+        "بعد التركيب أعد فتح اللعبة وجرّب إطلاق النار في مكان مغلق لسماع الصدى الجديد.",
+      ],
+    },
+    {
+      q: "ليش ينخفض FPS بعد تركيب أدونز Lux؟",
+      a: [
+        "تأكّد من تشغيل GTA على SSD وليس HDD.",
+        "خفّض إعدادات MSAA و Shadow Quality داخل اللعبة.",
+        "في Reshade عطّل الـShaders الثقيلة مثل RayTracing و MXAO.",
+        "حدّث تعريف كرت الشاشة لأحدث إصدار.",
+      ],
+    },
+    {
+      q: "هل أقدر أبيع أو أوزّع الأدونز اللي شريتها؟",
+      a: [
+        "لا. الأدونز مرخّصة للاستخدام الشخصي فقط.",
+        "إعادة البيع أو التوزيع تعرّض حسابك للحظر الدائم.",
+      ],
+    },
+  ];
+  const [open, setOpen] = useState<number | null>(0);
+  return (
+    <section id="faq" className="relative py-28 px-6 md:px-10 border-t border-white/5">
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-14">
+          <div className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground mb-3">— FAQ</div>
+          <h2 className="font-display text-4xl md:text-6xl font-bold tracking-tight">الأسئلة الشائعة</h2>
+          <p dir="rtl" className="font-arabic text-muted-foreground max-w-xl mx-auto mt-5 leading-[2]">
+            كل ما يخص تركيب وتشغيل أدونز Lux على FiveM في مكان واحد.
+          </p>
+        </div>
+
+        <div className="space-y-3">
+          {items.map((it, i) => {
+            const isOpen = open === i;
+            return (
+              <div key={i} className="rounded-2xl border border-white/10 bg-white/[0.02] overflow-hidden">
+                <button
+                  onClick={() => setOpen(isOpen ? null : i)}
+                  dir="rtl"
+                  className="w-full font-arabic flex items-center justify-between gap-4 p-5 md:p-6 text-right hover:bg-white/[0.03] transition"
+                >
+                  <span className="text-[15px] md:text-base font-medium">{it.q}</span>
+                  <span className={`size-7 shrink-0 rounded-full border border-white/20 grid place-items-center text-sm transition-transform ${isOpen ? "rotate-45" : ""}`}>+</span>
+                </button>
+                {isOpen && (
+                  <div dir="rtl" className="px-5 md:px-6 pb-6 border-t border-white/5">
+                    <ol className="font-arabic text-muted-foreground text-[14px] leading-[2] space-y-2 pt-4 list-decimal pr-5">
+                      {it.a.map((step, j) => <li key={j}>{step}</li>)}
+                    </ol>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function LuxOracleChat() {
+  const [open, setOpen] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [input, setInput] = useState("");
+
+  const { messages, sendMessage, status, error } = useChat({
+    transport: new DefaultChatTransport({ api: "/api/chat" }),
+  });
+
+  useEffect(() => {
+    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
+  }, [messages, status]);
+
+  const busy = status === "submitted" || status === "streaming";
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const text = input.trim();
+    if (!text || busy) return;
+    setInput("");
+    await sendMessage({ text });
+  };
+
+  const suggestions = [
+    "كيف أركّب Reshade؟",
+    "كيف أركّب GRFX؟",
+    "أفضل إعدادات FiveM للأداء؟",
+    "وش الفرق بين Sound Mk2 و Heavy؟",
+  ];
+
+  return (
+    <>
+      {/* Floating button */}
+      <button
+        onClick={() => setOpen(true)}
+        className="fixed bottom-6 right-6 z-40 group inline-flex items-center gap-3 h-14 pl-5 pr-6 rounded-full bg-foreground text-background shadow-[0_20px_60px_-15px_oklch(0.55_0.18_260)] hover:scale-[1.03] transition"
+        aria-label="افتح Lux Oracle"
+      >
+        <span className="relative grid place-items-center size-8 rounded-full bg-background/10">
+          <span className="absolute inset-0 rounded-full animate-ping bg-background/20" />
+          <svg viewBox="0 0 24 24" className="size-4" fill="currentColor"><path d="M12 2 3 7l9 5 9-5-9-5Zm0 7.5L3 14l9 5 9-5-9-4.5Z"/></svg>
+        </span>
+        <span className="text-[11px] tracking-[0.3em] uppercase font-semibold">Lux Oracle</span>
+      </button>
+
+      {/* Panel */}
+      {open && (
+        <div className="fixed inset-0 z-50 flex items-end md:items-center justify-end md:justify-end p-0 md:p-6">
+          <div className="absolute inset-0 bg-background/70 backdrop-blur-sm" onClick={() => setOpen(false)} />
+          <div className="relative w-full md:w-[440px] h-[85vh] md:h-[640px] rounded-t-3xl md:rounded-3xl border border-white/10 bg-[oklch(0.06_0.01_265)] flex flex-col overflow-hidden shadow-[0_40px_120px_-20px_rgba(0,0,0,0.9)]">
+            {/* Header */}
+            <div className="flex items-center justify-between gap-3 p-5 border-b border-white/5 bg-gradient-to-b from-white/[0.04] to-transparent">
+              <div className="flex items-center gap-3">
+                <div className="size-10 rounded-full ring-1 ring-white/15 bg-[radial-gradient(circle,oklch(0.55_0.18_260),oklch(0.1_0.05_265))] grid place-items-center">
+                  <svg viewBox="0 0 24 24" className="size-4 text-foreground" fill="currentColor"><path d="M12 2 3 7l9 5 9-5-9-5Zm0 7.5L3 14l9 5 9-5-9-4.5Z"/></svg>
+                </div>
+                <div>
+                  <div className="font-display text-sm font-semibold tracking-[0.2em]">LUX ORACLE</div>
+                  <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground flex items-center gap-1.5">
+                    <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" /> AI · FiveM Expert
+                  </div>
+                </div>
+              </div>
+              <button onClick={() => setOpen(false)} className="size-8 rounded-full border border-white/10 hover:bg-white/5 grid place-items-center text-muted-foreground hover:text-foreground transition">✕</button>
+            </div>
+
+            {/* Messages */}
+            <div ref={scrollRef} className="flex-1 overflow-y-auto p-5 space-y-4">
+              {messages.length === 0 && (
+                <div className="text-center pt-6">
+                  <div className="mx-auto size-16 rounded-full ring-1 ring-white/15 bg-[radial-gradient(circle,oklch(0.55_0.18_260),oklch(0.1_0.05_265))] grid place-items-center mb-4">
+                    <span className="font-display text-xl font-bold">LX</span>
+                  </div>
+                  <h3 className="font-display text-lg font-semibold">مرحباً بك في Lux Oracle</h3>
+                  <p dir="rtl" className="font-arabic text-sm text-muted-foreground mt-2 max-w-xs mx-auto leading-[2]">
+                    اسألني عن تركيب الأدونز، إعدادات FiveM، أو أي شي يخص GTA و Lux.
+                  </p>
+                  <div dir="rtl" className="mt-6 grid grid-cols-1 gap-2">
+                    {suggestions.map((s) => (
+                      <button
+                        key={s}
+                        onClick={() => sendMessage({ text: s })}
+                        className="font-arabic text-right text-[13px] px-4 py-2.5 rounded-xl border border-white/10 hover:bg-white/[0.04] hover:border-white/20 transition text-foreground/80"
+                      >
+                        {s}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {messages.map((m) => {
+                const text = m.parts.map((p) => (p.type === "text" ? p.text : "")).join("");
+                const isUser = m.role === "user";
+                return (
+                  <div key={m.id} className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
+                    <div
+                      dir="auto"
+                      className={`font-arabic max-w-[85%] px-4 py-3 rounded-2xl text-[14px] leading-[1.9] whitespace-pre-wrap ${
+                        isUser
+                          ? "bg-foreground text-background rounded-br-sm"
+                          : "bg-white/[0.05] border border-white/10 text-foreground rounded-bl-sm"
+                      }`}
+                    >
+                      {text || (status === "streaming" ? "…" : "")}
+                    </div>
+                  </div>
+                );
+              })}
+
+              {status === "submitted" && (
+                <div className="flex justify-start">
+                  <div className="bg-white/[0.05] border border-white/10 rounded-2xl rounded-bl-sm px-4 py-3 flex gap-1">
+                    <span className="size-1.5 rounded-full bg-foreground/60 animate-bounce" />
+                    <span className="size-1.5 rounded-full bg-foreground/60 animate-bounce" style={{ animationDelay: "120ms" }} />
+                    <span className="size-1.5 rounded-full bg-foreground/60 animate-bounce" style={{ animationDelay: "240ms" }} />
+                  </div>
+                </div>
+              )}
+
+              {error && (
+                <div dir="rtl" className="font-arabic text-xs text-red-400 bg-red-950/30 border border-red-900/40 rounded-lg p-3">
+                  حصل خطأ في الاتصال — حاول مرة ثانية.
+                </div>
+              )}
+            </div>
+
+            {/* Composer */}
+            <form onSubmit={onSubmit} className="p-4 border-t border-white/5 bg-background/40">
+              <div className="flex items-end gap-2">
+                <input
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  dir="auto"
+                  placeholder="اكتب سؤالك…"
+                  className="font-arabic flex-1 h-11 px-4 rounded-full bg-white/[0.04] border border-white/10 focus:border-white/30 outline-none text-sm placeholder:text-muted-foreground"
+                />
+                <button
+                  type="submit"
+                  disabled={busy || !input.trim()}
+                  className="h-11 px-5 rounded-full bg-foreground text-background text-[11px] tracking-[0.3em] uppercase font-semibold disabled:opacity-40 hover:opacity-90 transition"
+                >
+                  ↑
+                </button>
+              </div>
+              <div className="text-[9px] tracking-[0.3em] uppercase text-muted-foreground mt-2 text-center">
+                Powered by Lux AI · FiveM Knowledge
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
 function Footer() {
   return (
     <footer className="border-t border-white/5 py-10 px-6 md:px-10">
       <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4 text-[10px] tracking-[0.3em] uppercase text-muted-foreground">
         <span>© 2026 Lux Addons</span>
-        <span>FiveM · Built with passion</span>
+        <div className="flex items-center gap-6">
+          <Link to="/rules" className="hover:text-foreground transition">Rules</Link>
+          <a href="#faq" className="hover:text-foreground transition">FAQ</a>
+          <span>FiveM · Built with passion</span>
+        </div>
       </div>
     </footer>
   );
@@ -825,9 +1084,11 @@ function Index() {
         <Roadmap />
         <PatchNotes />
         <Streams />
+        <FAQ />
         <CTA />
       </main>
       <Footer />
+      <LuxOracleChat />
     </div>
   );
 }
