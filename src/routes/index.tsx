@@ -79,6 +79,8 @@ function Navbar() {
           <li><a href="#story" className="hover:text-foreground transition">Story</a></li>
           <li><a href="#stats" className="hover:text-foreground transition">Stats</a></li>
           <li><a href="#team" className="hover:text-foreground transition">Team</a></li>
+          <li><a href="#roadmap" className="hover:text-foreground transition">Roadmap</a></li>
+          <li><a href="#patch" className="hover:text-foreground transition">Patch</a></li>
           <li><a href="#streams" className="hover:text-foreground transition">Streams</a></li>
         </ul>
         <a
