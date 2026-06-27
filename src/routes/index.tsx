@@ -822,6 +822,8 @@ function Index() {
         <Stats />
         <Story />
         <Team />
+        <Roadmap />
+        <PatchNotes />
         <Streams />
         <CTA />
       </main>
