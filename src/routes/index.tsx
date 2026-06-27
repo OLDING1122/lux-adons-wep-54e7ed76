@@ -75,15 +75,15 @@ function Navbar() {
     <header className="fixed top-0 inset-x-0 z-50 backdrop-blur-xl bg-background/50 border-b border-white/5">
       <nav className="max-w-7xl mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
         <Logo />
-        <ul className="hidden md:flex items-center gap-9 text-[11px] tracking-[0.28em] uppercase text-muted-foreground">
+        <ul className="hidden md:flex items-center gap-7 text-[11px] tracking-[0.28em] uppercase text-muted-foreground">
           <li><a href="#home" className="hover:text-foreground transition">Home</a></li>
           <li><a href={STORE_URL} target="_blank" rel="noreferrer" className="font-arabic hover:text-foreground transition">المتجر</a></li>
           <li><a href="#story" className="hover:text-foreground transition">Story</a></li>
-          <li><a href="#stats" className="hover:text-foreground transition">Stats</a></li>
           <li><a href="#team" className="hover:text-foreground transition">Team</a></li>
           <li><a href="#roadmap" className="hover:text-foreground transition">Roadmap</a></li>
-          <li><a href="#patch" className="hover:text-foreground transition">Patch</a></li>
           <li><a href="#streams" className="hover:text-foreground transition">Streams</a></li>
+          <li><a href="#faq" className="hover:text-foreground transition">FAQ</a></li>
+          <li><Link to="/rules" className="hover:text-foreground transition">Rules</Link></li>
         </ul>
         <a
           href={DISCORD_URL}
