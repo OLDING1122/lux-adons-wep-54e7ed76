@@ -25,6 +25,13 @@ import btolyBg from "@/assets/admins/btoly.png.asset.json";
 import aBg from "@/assets/admins/a.png.asset.json";
 import raindanceBg from "@/assets/admins/raindance.png.asset.json";
 import abdullahBg from "@/assets/admins/abdullah.png.asset.json";
+import grfxImg from "@/assets/roadmap/grfx.jpg.asset.json";
+import citizenImg from "@/assets/roadmap/citizen.jpg.asset.json";
+import bloodfxImg from "@/assets/roadmap/bloodfx.jpg.asset.json";
+import soundfxImg from "@/assets/roadmap/soundfx.jpg.asset.json";
+import soundmk2Img from "@/assets/roadmap/soundmk2.jpg.asset.json";
+import soundheavyImg from "@/assets/roadmap/soundheavy.jpg.asset.json";
+import reshadeImg from "@/assets/roadmap/reshade.jpg.asset.json";
 
 const DISCORD_URL = "https://discord.gg/3RwEkB6k94";
 const STORE_URL = "https://luxaddons.rmz.gg/";
@@ -72,6 +79,8 @@ function Navbar() {
           <li><a href="#story" className="hover:text-foreground transition">Story</a></li>
           <li><a href="#stats" className="hover:text-foreground transition">Stats</a></li>
           <li><a href="#team" className="hover:text-foreground transition">Team</a></li>
+          <li><a href="#roadmap" className="hover:text-foreground transition">Roadmap</a></li>
+          <li><a href="#patch" className="hover:text-foreground transition">Patch</a></li>
           <li><a href="#streams" className="hover:text-foreground transition">Streams</a></li>
         </ul>
         <a
@@ -569,6 +578,213 @@ function Streams() {
 
 
 
+function Roadmap() {
+  const items = [
+    {
+      tag: "Chapter I",
+      title: "𝘎𝘙𝘍𝘟 Fivem",
+      ar: "تطوير الجرافيكس والسيارات بلمسة لمعان وواقعية سينمائية.",
+      img: grfxImg.url,
+      side: "left" as const,
+    },
+    {
+      tag: "Chapter II",
+      title: "𝘊𝘪𝘵𝘪𝘻𝘦𝘯 Fivem",
+      ar: "تحسين السماء، السحب، وأجواء الطقس داخل اللعبة.",
+      img: citizenImg.url,
+      side: "right" as const,
+    },
+    {
+      tag: "Chapter III",
+      title: "𝘉𝘭𝘰𝘰𝘥𝘧𝘹 Fivem",
+      ar: "تأثيرات إصابات الطلقات، آثار الرصاص، والشرر الواقعي.",
+      img: bloodfxImg.url,
+      side: "left" as const,
+    },
+    {
+      tag: "Chapter IV",
+      title: "𝘚𝘰𝘶𝘯𝘥𝘍𝘹",
+      ar: "أصوات الأسلحة بجودة سينمائية ومحاكاة واقعية لإطلاق النار.",
+      img: soundfxImg.url,
+      side: "right" as const,
+    },
+    {
+      tag: "Chapter V",
+      title: "𝘚𝘰𝘶𝘯𝘥 𝘔𝘬2",
+      ar: "صوت سلاح Mk2 المخصص بتفاصيل دقيقة وإحساس مختلف.",
+      img: soundmk2Img.url,
+      side: "left" as const,
+    },
+    {
+      tag: "Chapter VI",
+      title: "𝘚𝘰𝘶𝘯𝘥 𝘏𝘦𝘢𝘷𝘺",
+      ar: "صوت السلاح الهيفي — انفجار عميق، صدى ثقيل، ورهبة في كل طلقة.",
+      img: soundheavyImg.url,
+      side: "right" as const,
+      heavy: true,
+    },
+    {
+      tag: "Chapter VII",
+      title: "𝘙𝘦𝘴𝘩𝘢𝘥𝘦",
+      ar: "تحسين جودة الألوان والإضاءة لتجربة بصرية أكثر سينمائية.",
+      img: reshadeImg.url,
+      side: "left" as const,
+    },
+  ];
+
+  return (
+    <section id="roadmap" className="relative py-32 px-6 md:px-10 border-t border-white/5 overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-20 left-1/2 -translate-x-1/2 size-[600px] rounded-full blur-3xl opacity-20 bg-[radial-gradient(circle,oklch(0.55_0.18_260),transparent_60%)]" />
+      </div>
+
+      <div className="relative max-w-7xl mx-auto">
+        <div className="text-center mb-20">
+          <div className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground mb-4">— The Roadmap</div>
+          <h2 className="font-display text-4xl md:text-6xl font-bold tracking-tight">خارطة الطريق</h2>
+          <p dir="rtl" className="font-arabic text-muted-foreground max-w-2xl mx-auto mt-6 leading-[2]">
+            رؤيتنا للقادم: رفع الإنتاجية، توسيع نطاق العمل، زيادة تفاعل السيرفر، تطوير المجال،
+            والدخول في تصنيع وتوريد الأدوات محلياً ومجاناً. الاستمرار في تنزيل وتطوير كل مايخص
+            <span className="text-foreground"> FiveM</span>.
+          </p>
+        </div>
+
+        {/* Vertical road line */}
+        <div className="relative">
+          <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-white/15 to-transparent hidden md:block" />
+
+          <div className="space-y-20 md:space-y-32">
+            {items.map((it, i) => {
+              const isLeft = it.side === "left";
+              return (
+                <div key={i} className="relative grid md:grid-cols-2 gap-8 md:gap-16 items-center">
+                  {/* Dot on the spine */}
+                  <div className="absolute left-1/2 -translate-x-1/2 size-3 rounded-full bg-foreground ring-4 ring-background hidden md:block" />
+
+                  {/* Image */}
+                  <div className={`${isLeft ? "md:order-1" : "md:order-2"} relative group`}>
+                    <div className="relative overflow-hidden rounded-2xl border border-white/10 aspect-[4/3]">
+                      <img
+                        src={it.img}
+                        alt={it.title}
+                        loading="lazy"
+                        width={1024}
+                        height={768}
+                        className={`size-full object-cover transition-transform duration-[1.2s] group-hover:scale-105 ${it.heavy ? "saturate-[0.85] contrast-110" : ""}`}
+                      />
+                      <div className={`absolute inset-0 ${it.heavy ? "bg-gradient-to-t from-red-950/40 via-background/30 to-transparent" : "bg-gradient-to-t from-background/60 via-transparent to-transparent"}`} />
+                      <div className="absolute top-4 left-4 text-[10px] tracking-[0.4em] uppercase text-foreground/90 bg-background/60 backdrop-blur px-3 py-1.5 rounded-full border border-white/10">
+                        {it.tag}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Text */}
+                  <div className={`${isLeft ? "md:order-2 md:text-left" : "md:order-1 md:text-right"}`}>
+                    <div className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground mb-3">In Development</div>
+                    <h3 className="font-display text-3xl md:text-4xl font-bold tracking-tight mb-4">{it.title}</h3>
+                    <p dir="rtl" className="font-arabic text-muted-foreground leading-[2] text-[15px]">{it.ar}</p>
+                    <div className="mt-5 inline-flex items-center gap-2 text-[10px] tracking-[0.3em] uppercase text-foreground/70">
+                      <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      Active Plan
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function PatchNotes() {
+  const patches = [
+    {
+      chapter: "Chapter IV",
+      date: "Season 04 · 2026",
+      title: "إضافة باقة Sound Heavy",
+      notes: [
+        "إضافة أصوات أسلحة ثقيلة جديدة بجودة سينمائية.",
+        "تحسين توازن الصدى والانعكاسات داخل المباني.",
+        "إصلاح مشاكل التزامن بين الصوت والمؤثرات.",
+      ],
+    },
+    {
+      chapter: "Chapter III",
+      date: "Season 03 · 2026",
+      title: "تحديث Reshade والألوان",
+      notes: [
+        "تدرّج لوني سينمائي جديد للأجواء الليلية.",
+        "تحسين أداء الـReshade بنسبة 18%.",
+        "إضافة بريسيت خاص لمحبي الواقعية.",
+      ],
+    },
+    {
+      chapter: "Chapter II",
+      date: "Season 02 · 2025",
+      title: "إطلاق BloodFX و SoundFX",
+      notes: [
+        "إضافة تأثيرات إصابة الرصاص والشرر.",
+        "تحديث أصوات معظم الأسلحة الأساسية.",
+        "تحسينات عامة على الأداء والاستقرار.",
+      ],
+    },
+    {
+      chapter: "Chapter I",
+      date: "Season 01 · 2025",
+      title: "البداية — إطلاق Lux Addons",
+      notes: [
+        "تحويل الهوية من State Addons إلى Lux Addons.",
+        "إطلاق أول باقة Graphics وCitizen.",
+        "افتتاح المتجر الرسمي والمجتمع على ديسكورد.",
+      ],
+    },
+  ];
+
+  return (
+    <section id="patch" className="relative py-32 px-6 md:px-10 border-t border-white/5">
+      <div className="max-w-6xl mx-auto">
+        <div className="flex items-end justify-between flex-wrap gap-6 mb-16">
+          <div>
+            <div className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground mb-3">— Patch Notes</div>
+            <h2 className="font-display text-4xl md:text-6xl font-bold tracking-tight">سجل التحديثات</h2>
+          </div>
+          <p dir="rtl" className="font-arabic text-muted-foreground max-w-md">
+            كل فصل يحكي خطوة جديدة في رحلة Lux Addons — تحديثات، إصلاحات، وميزات.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          {patches.map((p, i) => (
+            <article
+              key={i}
+              className="group grid md:grid-cols-[200px_1fr] gap-6 md:gap-10 p-6 md:p-8 rounded-2xl border border-white/10 bg-white/[0.02] hover:bg-white/[0.04] hover:border-white/20 transition"
+            >
+              <div className="md:border-r md:border-white/10 md:pr-10">
+                <div className="font-display text-2xl font-bold tracking-tight">{p.chapter}</div>
+                <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mt-2">{p.date}</div>
+              </div>
+              <div>
+                <h3 dir="rtl" className="font-arabic text-xl font-semibold mb-4">{p.title}</h3>
+                <ul dir="rtl" className="font-arabic space-y-2 text-muted-foreground text-[14px] leading-[1.9]">
+                  {p.notes.map((n, j) => (
+                    <li key={j} className="flex items-start gap-3">
+                      <span className="mt-2 size-1 rounded-full bg-foreground/60 shrink-0" />
+                      <span>{n}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function CTA() {
   return (
     <section className="relative py-28 px-6 md:px-10">
@@ -606,6 +822,8 @@ function Index() {
         <Stats />
         <Story />
         <Team />
+        <Roadmap />
+        <PatchNotes />
         <Streams />
         <CTA />
       </main>
