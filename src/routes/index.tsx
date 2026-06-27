@@ -25,6 +25,13 @@ import btolyBg from "@/assets/admins/btoly.png.asset.json";
 import aBg from "@/assets/admins/a.png.asset.json";
 import raindanceBg from "@/assets/admins/raindance.png.asset.json";
 import abdullahBg from "@/assets/admins/abdullah.png.asset.json";
+import grfxImg from "@/assets/roadmap/grfx.jpg.asset.json";
+import citizenImg from "@/assets/roadmap/citizen.jpg.asset.json";
+import bloodfxImg from "@/assets/roadmap/bloodfx.jpg.asset.json";
+import soundfxImg from "@/assets/roadmap/soundfx.jpg.asset.json";
+import soundmk2Img from "@/assets/roadmap/soundmk2.jpg.asset.json";
+import soundheavyImg from "@/assets/roadmap/soundheavy.jpg.asset.json";
+import reshadeImg from "@/assets/roadmap/reshade.jpg.asset.json";
 
 const DISCORD_URL = "https://discord.gg/3RwEkB6k94";
 const STORE_URL = "https://luxaddons.rmz.gg/";
