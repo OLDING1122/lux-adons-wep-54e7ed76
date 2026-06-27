@@ -1084,9 +1084,11 @@ function Index() {
         <Roadmap />
         <PatchNotes />
         <Streams />
+        <FAQ />
         <CTA />
       </main>
       <Footer />
+      <LuxOracleChat />
     </div>
   );
 }
