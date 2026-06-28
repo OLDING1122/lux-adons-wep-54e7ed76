@@ -925,10 +925,10 @@ function LuxOracleChat() {
   };
 
   const suggestions = [
+    "اشرح لي مفهوم برمجي",
     "كيف أركّب Reshade؟",
-    "كيف أركّب GRFX؟",
-    "أفضل إعدادات FiveM للأداء؟",
-    "وش الفرق بين Sound Mk2 و Heavy؟",
+    "اكتب لي نص قصير",
+    "ترجم لي جملة",
   ];
 
   return (
@@ -936,12 +936,12 @@ function LuxOracleChat() {
       {/* Floating button */}
       <button
         onClick={() => setOpen(true)}
-        className="fixed bottom-6 right-6 z-40 group inline-flex items-center gap-3 h-14 pl-5 pr-6 rounded-full bg-foreground text-background shadow-[0_20px_60px_-15px_oklch(0.55_0.18_260)] hover:scale-[1.03] transition"
+        className="fixed bottom-6 right-6 z-40 group inline-flex items-center gap-3 h-14 pl-3 pr-6 rounded-full bg-foreground text-background shadow-[0_20px_60px_-15px_oklch(0.55_0.18_260)] hover:scale-[1.03] transition"
         aria-label="افتح Lux Oracle"
       >
-        <span className="relative grid place-items-center size-8 rounded-full bg-background/10">
-          <span className="absolute inset-0 rounded-full animate-ping bg-background/20" />
-          <svg viewBox="0 0 24 24" className="size-4" fill="currentColor"><path d="M12 2 3 7l9 5 9-5-9-5Zm0 7.5L3 14l9 5 9-5-9-4.5Z"/></svg>
+        <span className="relative grid place-items-center size-10 rounded-full overflow-hidden ring-1 ring-background/20">
+          <span className="absolute inset-0 rounded-full animate-ping bg-background/10" />
+          <img src={logoAsset.url} alt="" className="size-10 object-cover" />
         </span>
         <span className="text-[11px] tracking-[0.3em] uppercase font-semibold">Lux Oracle</span>
       </button>
@@ -950,17 +950,18 @@ function LuxOracleChat() {
       {open && (
         <div className="fixed inset-0 z-50 flex items-end md:items-center justify-end md:justify-end p-0 md:p-6">
           <div className="absolute inset-0 bg-background/70 backdrop-blur-sm" onClick={() => setOpen(false)} />
-          <div className="relative w-full md:w-[440px] h-[85vh] md:h-[640px] rounded-t-3xl md:rounded-3xl border border-white/10 bg-[oklch(0.06_0.01_265)] flex flex-col overflow-hidden shadow-[0_40px_120px_-20px_rgba(0,0,0,0.9)]">
-            {/* Header */}
-            <div className="flex items-center justify-between gap-3 p-5 border-b border-white/5 bg-gradient-to-b from-white/[0.04] to-transparent">
+          <div className="relative w-full md:w-[460px] h-[88vh] md:h-[680px] rounded-t-3xl md:rounded-3xl border border-white/10 bg-[oklch(0.06_0.01_265)] flex flex-col overflow-hidden shadow-[0_40px_120px_-20px_rgba(0,0,0,0.9)]">
+            {/* Top accent line */}
+            <div className="h-px bg-gradient-to-r from-transparent via-[oklch(0.7_0.15_260)]/60 to-transparent" />
+
+            {/* Header — logo top-left */}
+            <div className="flex items-center justify-between gap-3 px-5 py-4 border-b border-white/5 bg-gradient-to-b from-white/[0.04] to-transparent">
               <div className="flex items-center gap-3">
-                <div className="size-10 rounded-full ring-1 ring-white/15 bg-[radial-gradient(circle,oklch(0.55_0.18_260),oklch(0.1_0.05_265))] grid place-items-center">
-                  <svg viewBox="0 0 24 24" className="size-4 text-foreground" fill="currentColor"><path d="M12 2 3 7l9 5 9-5-9-5Zm0 7.5L3 14l9 5 9-5-9-4.5Z"/></svg>
-                </div>
-                <div>
+                <img src={logoAsset.url} alt="Lux" className="size-10 rounded-full ring-1 ring-white/15" />
+                <div className="leading-tight">
                   <div className="font-display text-sm font-semibold tracking-[0.2em]">LUX ORACLE</div>
-                  <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground flex items-center gap-1.5">
-                    <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" /> AI · FiveM Expert
+                  <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground flex items-center gap-1.5 mt-0.5">
+                    <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" /> Online · AI Assistant
                   </div>
                 </div>
               </div>
@@ -968,22 +969,22 @@ function LuxOracleChat() {
             </div>
 
             {/* Messages */}
-            <div ref={scrollRef} className="flex-1 overflow-y-auto p-5 space-y-4">
+            <div ref={scrollRef} className="flex-1 overflow-y-auto px-5 py-6 space-y-5">
               {messages.length === 0 && (
-                <div className="text-center pt-6">
-                  <div className="mx-auto size-16 rounded-full ring-1 ring-white/15 bg-[radial-gradient(circle,oklch(0.55_0.18_260),oklch(0.1_0.05_265))] grid place-items-center mb-4">
-                    <span className="font-display text-xl font-bold">LX</span>
+                <div className="text-center pt-4">
+                  <div className="mx-auto size-20 rounded-full ring-1 ring-white/15 overflow-hidden mb-5">
+                    <img src={logoAsset.url} alt="" className="size-full object-cover" />
                   </div>
-                  <h3 className="font-display text-lg font-semibold">مرحباً بك في Lux Oracle</h3>
+                  <h3 className="font-display text-lg font-semibold tracking-wide">Lux Oracle</h3>
                   <p dir="rtl" className="font-arabic text-sm text-muted-foreground mt-2 max-w-xs mx-auto leading-[2]">
-                    اسألني عن تركيب الأدونز، إعدادات FiveM، أو أي شي يخص GTA و Lux.
+                    مساعد ذكي عام — اسألني عن أي شي، من البرمجة وتركيب الأدونز إلى الترجمة والكتابة.
                   </p>
-                  <div dir="rtl" className="mt-6 grid grid-cols-1 gap-2">
+                  <div dir="rtl" className="mt-7 grid grid-cols-1 gap-2.5">
                     {suggestions.map((s) => (
                       <button
                         key={s}
                         onClick={() => sendMessage({ text: s })}
-                        className="font-arabic text-right text-[13px] px-4 py-2.5 rounded-xl border border-white/10 hover:bg-white/[0.04] hover:border-white/20 transition text-foreground/80"
+                        className="font-arabic text-right text-[13px] px-4 py-3 rounded-xl border border-white/10 hover:bg-white/[0.04] hover:border-white/20 transition text-foreground/80"
                       >
                         {s}
                       </button>
@@ -996,13 +997,16 @@ function LuxOracleChat() {
                 const text = m.parts.map((p) => (p.type === "text" ? p.text : "")).join("");
                 const isUser = m.role === "user";
                 return (
-                  <div key={m.id} className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
+                  <div key={m.id} className={`flex gap-2.5 ${isUser ? "justify-end" : "justify-start"}`}>
+                    {!isUser && (
+                      <img src={logoAsset.url} alt="" className="size-7 rounded-full ring-1 ring-white/10 shrink-0 mt-0.5" />
+                    )}
                     <div
                       dir="auto"
-                      className={`font-arabic max-w-[85%] px-4 py-3 rounded-2xl text-[14px] leading-[1.9] whitespace-pre-wrap ${
+                      className={`font-arabic max-w-[80%] px-4 py-3 rounded-2xl text-[14px] leading-[1.9] whitespace-pre-wrap ${
                         isUser
                           ? "bg-foreground text-background rounded-br-sm"
-                          : "bg-white/[0.05] border border-white/10 text-foreground rounded-bl-sm"
+                          : "bg-white/[0.04] border border-white/10 text-foreground rounded-bl-sm"
                       }`}
                     >
                       {text || (status === "streaming" ? "…" : "")}
@@ -1012,8 +1016,9 @@ function LuxOracleChat() {
               })}
 
               {status === "submitted" && (
-                <div className="flex justify-start">
-                  <div className="bg-white/[0.05] border border-white/10 rounded-2xl rounded-bl-sm px-4 py-3 flex gap-1">
+                <div className="flex gap-2.5 justify-start">
+                  <img src={logoAsset.url} alt="" className="size-7 rounded-full ring-1 ring-white/10 shrink-0 mt-0.5" />
+                  <div className="bg-white/[0.04] border border-white/10 rounded-2xl rounded-bl-sm px-4 py-3 flex gap-1">
                     <span className="size-1.5 rounded-full bg-foreground/60 animate-bounce" />
                     <span className="size-1.5 rounded-full bg-foreground/60 animate-bounce" style={{ animationDelay: "120ms" }} />
                     <span className="size-1.5 rounded-full bg-foreground/60 animate-bounce" style={{ animationDelay: "240ms" }} />
@@ -1030,7 +1035,7 @@ function LuxOracleChat() {
 
             {/* Composer */}
             <form onSubmit={onSubmit} className="p-4 border-t border-white/5 bg-background/40">
-              <div className="flex items-end gap-2">
+              <div className="flex items-center gap-2">
                 <input
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
@@ -1041,13 +1046,14 @@ function LuxOracleChat() {
                 <button
                   type="submit"
                   disabled={busy || !input.trim()}
-                  className="h-11 px-5 rounded-full bg-foreground text-background text-[11px] tracking-[0.3em] uppercase font-semibold disabled:opacity-40 hover:opacity-90 transition"
+                  className="size-11 shrink-0 rounded-full bg-foreground text-background grid place-items-center disabled:opacity-40 hover:opacity-90 transition"
+                  aria-label="إرسال"
                 >
-                  ↑
+                  <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
                 </button>
               </div>
-              <div className="text-[9px] tracking-[0.3em] uppercase text-muted-foreground mt-2 text-center">
-                Powered by Lux AI · FiveM Knowledge
+              <div className="text-[9px] tracking-[0.3em] uppercase text-muted-foreground mt-2.5 text-center">
+                Powered by Lux AI
               </div>
             </form>
           </div>
