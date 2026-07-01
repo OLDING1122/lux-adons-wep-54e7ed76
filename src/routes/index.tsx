@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 import logoAsset from "@/assets/lux-logo.png.asset.json";
 import knightAsset from "@/assets/knight-castle-lit.png.asset.json";
 import knightVideo from "@/assets/knights-night-battle.mp4.asset.json";
@@ -264,11 +265,239 @@ function Story() {
   );
 }
 
+type Badge = { label: string; color: string }; // color = tailwind bg class
+type Profile = {
+  name: string;
+  handle: string;
+  bio: string;
+  roles: { label: string; color: string }[]; // color hex/oklch for the dot
+  badges?: Badge[];
+  joined: string;
+  discord?: string; // full invite/profile url
+  status?: "online" | "idle" | "dnd" | "offline";
+  activity?: string;
+};
+
+const LXX_URL = "https://discord.gg/lxx";
+
+// Founder profiles
+const FOUNDER_PROFILES: Record<string, Profile> = {
+  OLD: {
+    name: "OLD",
+    handle: "old",
+    bio: "الرئيس والمالك — صاحب الرؤية. من State Addons إلى Lux Addons، القرار والاتجاه العام.",
+    roles: [
+      { label: "Owner · الرئيس المالك", color: "oklch(0.75 0.18 45)" },
+      { label: "Founder · مؤسس", color: "oklch(0.7 0.15 260)" },
+    ],
+    badges: [
+      { label: "LUX 👑", color: "bg-[oklch(0.25_0.1_260)]" },
+      { label: "OG", color: "bg-[oklch(0.3_0.12_45)]" },
+    ],
+    joined: "MMXXIV",
+    discord: LXX_URL,
+    status: "online",
+    activity: "Managing Lux Addons",
+  },
+  AbuHaJeRrR: {
+    name: "! AbuHaJeRrR",
+    handle: "abuhajer",
+    bio: "الجندي المجهول — رأس التطوير والتنزيل. صاحب الفضل الأكبر بعد الله في نجاح الأدونز.",
+    roles: [
+      { label: "Council · مجلس الإدارة", color: "oklch(0.7 0.15 260)" },
+      { label: "Lead Developer", color: "oklch(0.7 0.16 150)" },
+    ],
+    badges: [
+      { label: "LUX ⚔️", color: "bg-[oklch(0.25_0.1_260)]" },
+      { label: "Dev", color: "bg-[oklch(0.28_0.1_150)]" },
+    ],
+    joined: "MMXXIV",
+    discord: LXX_URL,
+    status: "online",
+    activity: "Developing FiveM tools",
+  },
+  "Bn Mansour": {
+    name: "Bn Mansour",
+    handle: "bnmansour",
+    bio: "مؤسس مشارك — العمليات والإدارة اليومية للفريق والمجتمع.",
+    roles: [
+      { label: "Council · مجلس الإدارة", color: "oklch(0.7 0.15 260)" },
+      { label: "Co-Founder · مؤسس مشارك", color: "oklch(0.75 0.18 45)" },
+    ],
+    badges: [{ label: "LUX ✦", color: "bg-[oklch(0.25_0.1_260)]" }],
+    joined: "MMXXIV",
+    discord: LXX_URL,
+    status: "online",
+  },
+};
+
+const MANAGER_NAMES = new Set(["! OG", "slim shady 👑"]);
+
+function makeAdminProfile(name: string, rank: string, index: number): Profile {
+  const isManager = MANAGER_NAMES.has(name);
+  const roleLabel = isManager ? "Addons Manager · مشرف" : "Addons Team · طاقم الأدونز";
+  const roleColor = isManager ? "oklch(0.75 0.18 45)" : "oklch(0.7 0.15 260)";
+  return {
+    name,
+    handle: name.replace(/[^a-zA-Z0-9]/g, "").toLowerCase() || "lux",
+    bio: isManager
+      ? "من قيادات الطاقم — يشرف على تنظيم الأدونز والتنسيق داخل الفريق."
+      : "عضو فعّال في طاقم Lux Addons — يشارك في العمل اليومي والدعم.",
+    roles: [{ label: roleLabel, color: roleColor }],
+    badges: [{ label: "LUX", color: "bg-[oklch(0.22_0.08_260)]" }],
+    joined: `#${String(index + 1).padStart(3, "0")}`,
+    discord: LXX_URL,
+    status: index % 3 === 0 ? "online" : index % 3 === 1 ? "idle" : "offline",
+  };
+}
+
+function StatusDot({ status }: { status?: Profile["status"] }) {
+  const color =
+    status === "online"
+      ? "bg-emerald-500"
+      : status === "idle"
+        ? "bg-amber-400"
+        : status === "dnd"
+          ? "bg-rose-500"
+          : "bg-neutral-500";
+  return (
+    <span className={`absolute -bottom-0.5 -right-0.5 size-4 rounded-full ${color} ring-4 ring-background`} />
+  );
+}
+
+function ProfileCard({ profile, avatar, avatarPos }: { profile: Profile; avatar?: string; avatarPos?: string }) {
+  const [copied, setCopied] = useState(false);
+  const copyTag = async () => {
+    try {
+      await navigator.clipboard.writeText(profile.handle);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1400);
+    } catch { /* noop */ }
+  };
+  return (
+    <div className="w-[320px] overflow-hidden rounded-2xl border border-white/10 bg-[oklch(0.13_0.02_265)] text-foreground shadow-[0_20px_60px_-20px_rgba(0,0,0,0.9)]">
+      {/* Banner */}
+      <div className="relative h-20 bg-gradient-to-br from-[oklch(0.28_0.14_260)] via-[oklch(0.18_0.08_265)] to-[oklch(0.12_0.04_260)]">
+        <div className="absolute inset-0 opacity-20 mix-blend-overlay" style={{ backgroundImage: "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence baseFrequency='0.9'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")" }} />
+        <div className="absolute right-3 top-3 flex gap-1.5">
+          <a href={profile.discord ?? LXX_URL} target="_blank" rel="noreferrer" className="grid size-7 place-items-center rounded-full bg-black/40 backdrop-blur hover:bg-black/60 transition text-xs">✉</a>
+          <button onClick={copyTag} className="grid size-7 place-items-center rounded-full bg-black/40 backdrop-blur hover:bg-black/60 transition text-xs" title="Copy tag">{copied ? "✓" : "@"}</button>
+        </div>
+      </div>
+
+      {/* Avatar */}
+      <div className="relative px-4">
+        <div className="relative -mt-10 inline-block">
+          <div className="size-20 rounded-full ring-4 ring-[oklch(0.13_0.02_265)] overflow-hidden bg-black">
+            {avatar ? (
+              <img src={avatar} alt={profile.name} className={`size-full object-cover ${avatarPos ?? "object-center"}`} />
+            ) : (
+              <div className="size-full grid place-items-center font-display font-bold text-2xl">{profile.name.charAt(0)}</div>
+            )}
+          </div>
+          <StatusDot status={profile.status} />
+        </div>
+      </div>
+
+      {/* Body */}
+      <div className="px-4 pb-4 pt-3 space-y-3">
+        <div>
+          <div className="font-display text-lg font-semibold leading-tight">{profile.name}</div>
+          <div className="text-xs text-muted-foreground">@{profile.handle}{profile.activity ? ` · ${profile.activity}` : ""}</div>
+        </div>
+
+        <div className="h-px bg-white/5" />
+
+        {/* Roles */}
+        <div>
+          <div className="text-[9px] uppercase tracking-[0.3em] text-muted-foreground mb-1.5">Roles</div>
+          <div className="flex flex-wrap gap-1.5">
+            {profile.roles.map((r, i) => (
+              <span key={i} dir="rtl" className="font-arabic inline-flex items-center gap-1.5 rounded-md bg-white/[0.04] border border-white/10 px-2 py-1 text-[11px]">
+                <span className="size-2 rounded-full" style={{ background: r.color }} />
+                {r.label}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Badges */}
+        {profile.badges && profile.badges.length > 0 && (
+          <div>
+            <div className="text-[9px] uppercase tracking-[0.3em] text-muted-foreground mb-1.5">Badges</div>
+            <div className="flex flex-wrap gap-1.5">
+              {profile.badges.map((b, i) => (
+                <span key={i} className={`inline-flex items-center rounded-md ${b.color} border border-white/10 px-2 py-1 text-[10px] tracking-wide`}>
+                  {b.label}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Bio */}
+        <div>
+          <div className="text-[9px] uppercase tracking-[0.3em] text-muted-foreground mb-1.5">About Me</div>
+          <p dir="rtl" className="font-arabic text-[12.5px] leading-[1.85] text-foreground/85">{profile.bio}</p>
+        </div>
+
+        <div className="text-[10px] text-muted-foreground tracking-wide">Member Since · {profile.joined}</div>
+
+        <a
+          href={profile.discord ?? LXX_URL}
+          target="_blank"
+          rel="noreferrer"
+          className="mt-1 flex h-9 items-center justify-center rounded-lg bg-gradient-to-r from-[oklch(0.4_0.16_260)] to-[oklch(0.5_0.15_265)] hover:brightness-110 transition text-[11px] tracking-[0.25em] uppercase font-medium"
+        >
+          Open Discord →
+        </a>
+      </div>
+    </div>
+  );
+}
+
+function AvatarButton({
+  label,
+  profile,
+  avatar,
+  avatarPos,
+  size = "md",
+}: {
+  label: string;
+  profile: Profile;
+  avatar?: string;
+  avatarPos?: string;
+  size?: "sm" | "md";
+}) {
+  const dim = size === "sm" ? "size-9 text-sm" : "size-12";
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <button
+          type="button"
+          aria-label={`Open ${profile.name} profile`}
+          className={`${dim} relative rounded-full bg-background/60 backdrop-blur ring-1 ring-white/20 grid place-items-center font-display font-bold text-foreground/90 overflow-hidden cursor-pointer hover:ring-white/50 hover:ring-2 transition`}
+        >
+          {avatar ? (
+            <img src={avatar} alt="" className={`absolute inset-0 size-full object-cover ${avatarPos ?? "object-center"}`} />
+          ) : (
+            <span>{label}</span>
+          )}
+          <StatusDot status={profile.status} />
+        </button>
+      </PopoverTrigger>
+      <PopoverContent side="right" align="start" sideOffset={12} className="p-0 border-0 bg-transparent w-auto shadow-none">
+        <ProfileCard profile={profile} avatar={avatar} avatarPos={avatarPos} />
+      </PopoverContent>
+    </Popover>
+  );
+}
+
 function Team() {
   const members = [
-    { name: "OLD", role: "Founder · مؤسس", tag: "Vision", bg: oldBg.url, pos: "object-left" },
-    { name: "AbuHaJeRrR", role: "Lead Developer · الجندي المجهول", tag: "Development", bg: abuhajerBg.url, pos: "object-center" },
-    { name: "Bn Mansour", role: "Founder · مؤسس", tag: "Operations", bg: bnmansourBg.url, pos: "object-center" },
+    { name: "OLD", role: "Founder · مؤسس", tag: "Vision", bg: oldBg.url, pos: "object-left", profile: FOUNDER_PROFILES.OLD },
+    { name: "AbuHaJeRrR", role: "Lead Developer · الجندي المجهول", tag: "Development", bg: abuhajerBg.url, pos: "object-center", profile: FOUNDER_PROFILES.AbuHaJeRrR },
+    { name: "Bn Mansour", role: "Founder · مؤسس", tag: "Operations", bg: bnmansourBg.url, pos: "object-center", profile: FOUNDER_PROFILES["Bn Mansour"] },
   ];
 
   const admins: { name: string; rank: string; bg?: string; pos?: string }[] = [
@@ -298,7 +527,7 @@ function Team() {
       <div className="max-w-7xl mx-auto">
         <div className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground mb-3">— The Team</div>
         <h2 className="font-display text-4xl md:text-6xl font-bold tracking-tight mb-3">Founders & Crew</h2>
-        <p dir="rtl" className="font-arabic text-muted-foreground max-w-xl mb-14">المؤسسون والطاقم اللي خلّوا Lux Addons يوصل لهذي المرحلة.</p>
+        <p dir="rtl" className="font-arabic text-muted-foreground max-w-xl mb-14">المؤسسون والطاقم اللي خلّوا Lux Addons يوصل لهذي المرحلة. اضغط على الصورة الدائرية لأي شخص لتشوف بروفايله.</p>
 
         <div className="grid md:grid-cols-3 gap-5">
           {members.map((m, i) => (
@@ -308,9 +537,7 @@ function Team() {
               <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-background/40" />
               <div className="relative h-full flex flex-col justify-between p-7">
                 <div className="flex items-center justify-between">
-                  <div className="size-12 rounded-full bg-background/60 backdrop-blur ring-1 ring-white/20 grid place-items-center font-display font-bold">
-                    {m.name.charAt(0)}
-                  </div>
+                  <AvatarButton label={m.name.charAt(0)} profile={m.profile} avatar={m.bg} avatarPos={m.pos} />
                   <span className="text-[9px] tracking-[0.3em] uppercase text-foreground/90 px-2 py-1 rounded-full border border-white/20 bg-background/40 backdrop-blur">{m.tag}</span>
                 </div>
                 <div>
@@ -330,40 +557,43 @@ function Team() {
         </div>
 
         <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {admins.map((a, i) => (
-            <div
-              key={i}
-              className="group relative h-44 rounded-xl border border-white/10 overflow-hidden bg-black hover:border-white/30 transition"
-            >
-              {a.bg ? (
-                <img
-                  src={a.bg}
-                  alt={a.name}
-                  className={`absolute inset-0 size-full object-cover ${a.pos ?? "object-center"} grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700`}
-                />
-              ) : (
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,oklch(0.15_0_0),oklch(0.04_0_0))]" />
-              )}
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/20" />
-              <div className="relative h-full flex flex-col justify-between p-5">
-                <div className="flex items-center justify-between">
-                  <div className="size-9 rounded-full bg-background/60 backdrop-blur ring-1 ring-white/20 grid place-items-center font-display font-bold text-sm text-foreground/90">
-                    {a.name.replace(/[^a-zA-Z0-9\u0600-\u06FF]/g, "").charAt(0).toUpperCase() || "•"}
+          {admins.map((a, i) => {
+            const profile = makeAdminProfile(a.name, a.rank, i);
+            const initial = a.name.replace(/[^a-zA-Z0-9\u0600-\u06FF]/g, "").charAt(0).toUpperCase() || "•";
+            return (
+              <div
+                key={i}
+                className="group relative h-44 rounded-xl border border-white/10 overflow-hidden bg-black hover:border-white/30 transition"
+              >
+                {a.bg ? (
+                  <img
+                    src={a.bg}
+                    alt={a.name}
+                    className={`absolute inset-0 size-full object-cover ${a.pos ?? "object-center"} grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700`}
+                  />
+                ) : (
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,oklch(0.15_0_0),oklch(0.04_0_0))]" />
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/20" />
+                <div className="relative h-full flex flex-col justify-between p-5">
+                  <div className="flex items-center justify-between">
+                    <AvatarButton label={initial} profile={profile} avatar={a.bg} avatarPos={a.pos} size="sm" />
+                    <span className="text-[8px] tracking-[0.3em] uppercase text-foreground/80 px-2 py-1 rounded-full border border-white/15 bg-background/40 backdrop-blur">0{(i + 1).toString().padStart(2, "0").slice(-2)}</span>
                   </div>
-                  <span className="text-[8px] tracking-[0.3em] uppercase text-foreground/80 px-2 py-1 rounded-full border border-white/15 bg-background/40 backdrop-blur">0{(i + 1).toString().padStart(2, "0").slice(-2)}</span>
-                </div>
-                <div>
-                  <div className="font-display text-lg font-semibold leading-tight truncate">{a.name}</div>
-                  <div className="text-[11px] text-muted-foreground mt-1 tracking-wide">{a.rank}</div>
+                  <div>
+                    <div className="font-display text-lg font-semibold leading-tight truncate">{a.name}</div>
+                    <div className="text-[11px] text-muted-foreground mt-1 tracking-wide">{a.rank}</div>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
   );
 }
+
 
 const KICK_CHANNELS = ["y7dd", "q5mv", "iabuhajeri", "osamah", "abuswe7l", "sxb"];
 const ARCHIVE_KEY = "lux_kick_archive_v1";
