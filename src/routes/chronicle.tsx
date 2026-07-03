@@ -41,8 +41,8 @@ const CHAPTERS: Chapter[] = [
     era: "The Foundation · التأسيس",
     title: "The First Stone",
     arTitle: "الحجر الأول",
-    body: "تأسّس السيرفر رسمياً على يد المالك OLD ومجلس الإدارة. وُضِعت أولى القوانين، أول رتب، وأول أدون رسمي نُشر للمجتمع مجاناً.",
-    marks: ["افتتاح الديسكورد", "أول 100 عضو", "إطلاق أول أدون مجاني"],
+    body: "تأسّس السيرفر رسمياً على يد المالك OLD و BO MANSOR، ومعهما وُضِعت أولى القوانين، أول رتب، وأول أدون رسمي نُشر للمجتمع مجاناً. من هنا بدأت الهوية.",
+    marks: ["تأسيس OLD و BO MANSOR", "افتتاح الديسكورد", "إطلاق أول أدون مجاني"],
   },
   {
     roman: "III",
@@ -82,7 +82,7 @@ const MILESTONES: { year: string; label: string; ar: string }[] = [
   { year: "2023", label: "Founded", ar: "التأسيس" },
   { year: "2024", label: "First 1K", ar: "أول ألف" },
   { year: "2025", label: "Store Live", ar: "المتجر" },
-  { year: "2026", label: "Codex", ar: "الوثيقة" },
+  { year: "2026", label: "Al-Wathiqa", ar: "الوثيقة" },
 ];
 
 function ChroniclePage() {
@@ -305,16 +305,37 @@ function ChroniclePage() {
         {/* Sealing */}
         <div className="mt-20 pt-10 border-t border-white/5 text-center">
           <div className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground">
-            To Be Continued
+            الوثيقة · Al-Wathiqa
           </div>
-          <div
-            className="mt-4 text-4xl text-foreground/90"
-            style={{ fontFamily: "'Caveat', cursive", transform: "rotate(-3deg)", display: "inline-block" }}
-          >
-            OLD · Lux Council
+          <div dir="rtl" className="font-arabic mt-3 text-sm text-muted-foreground max-w-lg mx-auto">
+            هذه وثيقة رسمية موقّعة من مالك ومؤسسي Lux Addons.
           </div>
-          <div dir="rtl" className="font-arabic mt-6 text-sm text-muted-foreground max-w-lg mx-auto">
-            كل فصل يُكتب بأيدي من يؤمن بأن المستحيل مجرّد كلمة. الرحلة لم تنتهِ — بل بدأت للتو.
+
+          <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-10">
+            <div className="flex flex-col items-center">
+              <div
+                className="text-3xl text-foreground/95"
+                style={{ fontFamily: "'Caveat', cursive", transform: "rotate(-4deg)" }}
+              >
+                OLD
+              </div>
+              <div className="mt-2 h-px w-28 bg-white/20" />
+              <div dir="rtl" className="font-arabic text-[11px] text-muted-foreground mt-2">
+                المالك
+              </div>
+            </div>
+            <div className="flex flex-col items-center">
+              <div
+                className="text-3xl text-foreground/95"
+                style={{ fontFamily: "'Caveat', cursive", transform: "rotate(-2deg)" }}
+              >
+                BO MANSOR
+              </div>
+              <div className="mt-2 h-px w-28 bg-white/20" />
+              <div dir="rtl" className="font-arabic text-[11px] text-muted-foreground mt-2">
+                المؤسس المشارك
+              </div>
+            </div>
           </div>
 
           <div className="mt-10">
