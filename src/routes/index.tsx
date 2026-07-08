@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
+import { siteStatsQuery, announcementsQuery, type Announcement } from "@/lib/site-queries";
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 import logoAsset from "@/assets/lux-logo.png.asset.json";
 import knightAsset from "@/assets/knight-castle-lit.png.asset.json";
