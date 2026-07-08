@@ -854,7 +854,7 @@ function Streams() {
                     <span className="inline-flex items-center gap-1.5 text-[9px] tracking-[0.3em] uppercase text-foreground px-2 py-1 rounded-full border border-white/25 bg-background/60 backdrop-blur">
                       <span className="size-1.5 rounded-full bg-red-500 animate-pulse" /> Live
                       {typeof s.viewers === "number" && (
-                        <span className="tabular-nums text-foreground/80 ml-1">{s.viewers.toLocaleString()}</span>
+                        <CountUp value={s.viewers} duration={900} className="text-foreground/80 ml-1" />
                       )}
                     </span>
                   )}
