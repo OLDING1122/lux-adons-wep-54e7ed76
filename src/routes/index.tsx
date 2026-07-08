@@ -626,6 +626,78 @@ function KickIcon({ className = "" }: { className?: string }) {
   );
 }
 
+/**
+ * CountUp — animates a number from 0 → `value` with an ease-out curve.
+ * Starts when the element scrolls into view, and re-animates smoothly
+ * whenever `value` changes (e.g. live viewer counts refreshing).
+ */
+function CountUp({
+  value,
+  duration = 1600,
+  className = "",
+  format = (n: number) => n.toLocaleString(),
+}: {
+  value: number;
+  duration?: number;
+  className?: string;
+  format?: (n: number) => string;
+}) {
+  const ref = useRef<HTMLSpanElement | null>(null);
+  const [display, setDisplay] = useState(0);
+  const startedRef = useRef(false);
+  const fromRef = useRef(0);
+
+  // Kick off on first intersection
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting && !startedRef.current) {
+            startedRef.current = true;
+            animate(fromRef.current, value);
+            io.disconnect();
+          }
+        }
+      },
+      { threshold: 0.25 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Re-animate on value changes after the first reveal
+  useEffect(() => {
+    if (!startedRef.current) return;
+    animate(fromRef.current, value);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
+
+  function animate(from: number, to: number) {
+    const start = performance.now();
+    const delta = to - from;
+    const step = (t: number) => {
+      const p = Math.min(1, (t - start) / duration);
+      // easeOutExpo — silky smooth
+      const eased = p === 1 ? 1 : 1 - Math.pow(2, -10 * p);
+      const current = from + delta * eased;
+      setDisplay(current);
+      fromRef.current = current;
+      if (p < 1) requestAnimationFrame(step);
+      else fromRef.current = to;
+    };
+    requestAnimationFrame(step);
+  }
+
+  return (
+    <span ref={ref} className={`tabular-nums ${className}`}>
+      {format(Math.round(display))}
+    </span>
+  );
+}
+
 function Streams() {
   const [streams, setStreams] = useState<LiveInfo[]>(
     KICK_CHANNELS.map((s) => ({ slug: s, isLive: false }))
@@ -704,6 +776,7 @@ function Streams() {
   }, []);
 
   const liveCount = streams.filter((s) => s.isLive).length;
+  const totalViewers = streams.reduce((sum, s) => sum + (s.viewers ?? 0), 0);
 
   return (
     <section id="streams" className="relative py-28 px-6 md:px-10 border-t border-white/5">
@@ -720,7 +793,35 @@ function Streams() {
             {liveCount} Live · {KICK_CHANNELS.length} Channels
           </div>
         </div>
-        <p dir="rtl" className="font-arabic text-muted-foreground max-w-xl mb-12">بثوث طاقم Lux على منصة Kick — تحدث تلقائياً كل دقيقة.</p>
+        <p dir="rtl" className="font-arabic text-muted-foreground max-w-xl mb-10">بثوث طاقم Lux على منصة Kick — تحدث تلقائياً كل دقيقة.</p>
+
+        {/* Animated stats — count up on scroll into view */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-12">
+          {[
+            { label: "Live Now", ar: "مباشر الآن", value: liveCount, accent: liveCount > 0 },
+            { label: "Channels", ar: "قنوات", value: KICK_CHANNELS.length },
+            { label: "Viewers", ar: "مشاهدون", value: totalViewers },
+            { label: "Archived", ar: "أرشيف", value: archive.length },
+          ].map((s) => (
+            <div
+              key={s.label}
+              className="group relative overflow-hidden rounded-xl border border-white/10 bg-white/[0.02] px-5 py-6 transition hover:border-white/25 hover:bg-white/[0.04]"
+            >
+              <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="flex items-center gap-2 text-[9px] tracking-[0.4em] uppercase text-muted-foreground mb-3">
+                <span className={`size-1.5 rounded-full ${s.accent ? "bg-emerald-400 animate-pulse" : "bg-white/25"}`} />
+                {s.label}
+              </div>
+              <CountUp
+                value={s.value}
+                className="font-display text-4xl md:text-5xl font-bold tracking-tight"
+              />
+              <div dir="rtl" className="font-arabic text-[11px] text-muted-foreground mt-2">{s.ar}</div>
+            </div>
+          ))}
+        </div>
+
+
 
         <div className="grid lg:grid-cols-[1.6fr_1fr] gap-6">
           {/* Live grid — embedded Kick players */}
@@ -753,7 +854,7 @@ function Streams() {
                     <span className="inline-flex items-center gap-1.5 text-[9px] tracking-[0.3em] uppercase text-foreground px-2 py-1 rounded-full border border-white/25 bg-background/60 backdrop-blur">
                       <span className="size-1.5 rounded-full bg-red-500 animate-pulse" /> Live
                       {typeof s.viewers === "number" && (
-                        <span className="tabular-nums text-foreground/80 ml-1">{s.viewers.toLocaleString()}</span>
+                        <CountUp value={s.viewers} duration={900} className="text-foreground/80 ml-1" />
                       )}
                     </span>
                   )}
