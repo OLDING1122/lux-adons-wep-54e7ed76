@@ -10,13 +10,20 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as RulesRouteImport } from './routes/rules'
+import { Route as NewsRouteImport } from './routes/news'
 import { Route as ChronicleRouteImport } from './routes/chronicle'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as NewsSlugRouteImport } from './routes/news.$slug'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 
 const RulesRoute = RulesRouteImport.update({
   id: '/rules',
   path: '/rules',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewsRoute = NewsRouteImport.update({
+  id: '/news',
+  path: '/news',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ChronicleRoute = ChronicleRouteImport.update({
@@ -29,6 +36,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NewsSlugRoute = NewsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => NewsRoute,
+} as any)
 const ApiChatRoute = ApiChatRouteImport.update({
   id: '/api/chat',
   path: '/api/chat',
@@ -38,33 +50,53 @@ const ApiChatRoute = ApiChatRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/chronicle': typeof ChronicleRoute
+  '/news': typeof NewsRouteWithChildren
   '/rules': typeof RulesRoute
   '/api/chat': typeof ApiChatRoute
+  '/news/$slug': typeof NewsSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/chronicle': typeof ChronicleRoute
+  '/news': typeof NewsRouteWithChildren
   '/rules': typeof RulesRoute
   '/api/chat': typeof ApiChatRoute
+  '/news/$slug': typeof NewsSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/chronicle': typeof ChronicleRoute
+  '/news': typeof NewsRouteWithChildren
   '/rules': typeof RulesRoute
   '/api/chat': typeof ApiChatRoute
+  '/news/$slug': typeof NewsSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/chronicle' | '/rules' | '/api/chat'
+  fullPaths:
+    | '/'
+    | '/chronicle'
+    | '/news'
+    | '/rules'
+    | '/api/chat'
+    | '/news/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/chronicle' | '/rules' | '/api/chat'
-  id: '__root__' | '/' | '/chronicle' | '/rules' | '/api/chat'
+  to: '/' | '/chronicle' | '/news' | '/rules' | '/api/chat' | '/news/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/chronicle'
+    | '/news'
+    | '/rules'
+    | '/api/chat'
+    | '/news/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ChronicleRoute: typeof ChronicleRoute
+  NewsRoute: typeof NewsRouteWithChildren
   RulesRoute: typeof RulesRoute
   ApiChatRoute: typeof ApiChatRoute
 }
@@ -76,6 +108,13 @@ declare module '@tanstack/react-router' {
       path: '/rules'
       fullPath: '/rules'
       preLoaderRoute: typeof RulesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/news': {
+      id: '/news'
+      path: '/news'
+      fullPath: '/news'
+      preLoaderRoute: typeof NewsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/chronicle': {
@@ -92,6 +131,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/news/$slug': {
+      id: '/news/$slug'
+      path: '/$slug'
+      fullPath: '/news/$slug'
+      preLoaderRoute: typeof NewsSlugRouteImport
+      parentRoute: typeof NewsRoute
+    }
     '/api/chat': {
       id: '/api/chat'
       path: '/api/chat'
@@ -102,9 +148,20 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface NewsRouteChildren {
+  NewsSlugRoute: typeof NewsSlugRoute
+}
+
+const NewsRouteChildren: NewsRouteChildren = {
+  NewsSlugRoute: NewsSlugRoute,
+}
+
+const NewsRouteWithChildren = NewsRoute._addFileChildren(NewsRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ChronicleRoute: ChronicleRoute,
+  NewsRoute: NewsRouteWithChildren,
   RulesRoute: RulesRoute,
   ApiChatRoute: ApiChatRoute,
 }

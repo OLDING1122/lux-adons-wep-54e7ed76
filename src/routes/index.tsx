@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
+import { siteStatsQuery, announcementsQuery, type Announcement } from "@/lib/site-queries";
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 import logoAsset from "@/assets/lux-logo.png.asset.json";
 import knightAsset from "@/assets/knight-castle-lit.png.asset.json";
@@ -56,6 +58,11 @@ export const Route = createFileRoute("/")({
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" },
     ],
   }),
+  loader: ({ context }) => {
+    context.queryClient.prefetchQuery(siteStatsQuery());
+    context.queryClient.prefetchQuery(announcementsQuery(3));
+    return null;
+  },
   component: Index,
 });
 
@@ -80,6 +87,7 @@ function Navbar() {
           <li><a href="#home" className="hover:text-foreground transition">Home</a></li>
           <li><a href={STORE_URL} target="_blank" rel="noreferrer" className="font-arabic hover:text-foreground transition">المتجر</a></li>
           <li><a href="#story" className="hover:text-foreground transition">Story</a></li>
+          <li><Link to="/news" className="hover:text-foreground transition">News</Link></li>
           <li><a href="#team" className="hover:text-foreground transition">Team</a></li>
           <li><a href="#roadmap" className="hover:text-foreground transition">Roadmap</a></li>
           <li><a href="#streams" className="hover:text-foreground transition">Streams</a></li>
@@ -157,33 +165,49 @@ function Hero() {
 }
 
 function Stats() {
+  const { data, isLoading } = useQuery(siteStatsQuery());
   const items = [
-    { value: "7,084", label: "Offline Addons", sub: "أدونز غير نشط " },
-    { value: "2,691", label: "Online Addons", sub: "أدونز نشطة الآن" },
-    { value: "9,775", label: "Total Released", sub: "إجمالي الانشطه " },
+    { key: "inactive", value: data?.inactive_addons ?? 0, label: "Offline Addons", sub: "أدونز غير نشط" },
+    { key: "active", value: data?.active_addons ?? 0, label: "Online Addons", sub: "أدونز نشطة الآن" },
+    { key: "total", value: data?.total_addons ?? 0, label: "Total Released", sub: "إجمالي الأدونز" },
+    { key: "community", value: data?.community_members ?? 0, label: "Community", sub: "أعضاء المجتمع" },
   ];
+  const updated = data?.updated_at ? new Date(data.updated_at) : null;
   return (
     <section id="stats" className="relative py-28 px-6 md:px-10">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-end justify-between flex-wrap gap-4 mb-14">
           <div>
-            <div className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground mb-3">— Live Metrics</div>
+            <div className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground mb-3 flex items-center gap-2">
+              <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              — Live Cloud Metrics
+            </div>
             <h2 className="font-display text-4xl md:text-6xl font-bold tracking-tight">Addons Stats</h2>
           </div>
-          <p dir="rtl" className="font-arabic text-muted-foreground max-w-md">
-            أرقام حقيقية تعكس حجم العمل اليومي ومستوى الإنتاج المستمر في Lux Addons.
-          </p>
+          <div className="text-right">
+            <p dir="rtl" className="font-arabic text-muted-foreground max-w-md">
+              أرقام حية من السحابة — تتحدّث تلقائياً وتعكس نبض Lux Addons لحظة بلحظة.
+            </p>
+            {updated && (
+              <div className="text-[9px] tracking-[0.35em] uppercase text-muted-foreground/70 mt-2">
+                Synced · {updated.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}
+              </div>
+            )}
+          </div>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-5">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {items.map((it, i) => (
-            <div key={i} className="group relative p-8 rounded-2xl border border-white/10 bg-white/[0.02] hover:bg-white/[0.04] hover:border-white/20 transition overflow-hidden">
+            <div key={it.key} className="group relative p-7 md:p-8 rounded-2xl border border-white/10 bg-white/[0.02] hover:bg-white/[0.04] hover:border-white/25 transition overflow-hidden">
+              <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-[oklch(0.8_0.12_85)]/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="absolute -top-20 -right-20 size-40 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition bg-[radial-gradient(circle,oklch(0.65_0.2_265),transparent_60%)]" />
               <div className="relative">
-                <div className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground mb-6">0{i + 1}</div>
-                <div className="font-display text-5xl md:text-6xl font-bold tabular-nums">{it.value}</div>
-                <div className="mt-3 text-sm tracking-[0.2em] uppercase text-foreground/80">{it.label}</div>
-                <div dir="rtl" className="font-arabic text-sm text-muted-foreground mt-1">{it.sub}</div>
+                <div className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground mb-5">0{i + 1}</div>
+                <div className="font-display text-4xl md:text-5xl font-bold tabular-nums">
+                  {isLoading ? <span className="opacity-40">—</span> : <CountUp value={it.value} duration={1800} />}
+                </div>
+                <div className="mt-3 text-xs md:text-sm tracking-[0.2em] uppercase text-foreground/80">{it.label}</div>
+                <div dir="rtl" className="font-arabic text-xs md:text-sm text-muted-foreground mt-1">{it.sub}</div>
               </div>
             </div>
           ))}
@@ -192,6 +216,78 @@ function Stats() {
     </section>
   );
 }
+
+const NEWS_TAG_LABEL: Record<Announcement["tag"], string> = {
+  release: "Release",
+  update: "Update",
+  event: "Event",
+  news: "News",
+};
+
+function formatNewsDate(iso: string): string {
+  const then = new Date(iso).getTime();
+  const diff = Math.max(0, Date.now() - then);
+  const m = Math.floor(diff / 60_000);
+  if (m < 60) return `قبل ${Math.max(1, m)} دقيقة`;
+  const h = Math.floor(m / 60);
+  if (h < 24) return `قبل ${h} ساعة`;
+  const d = Math.floor(h / 24);
+  return `قبل ${d} يوم`;
+}
+
+function Announcements() {
+  const { data } = useQuery(announcementsQuery(3));
+  const items = data ?? [];
+  return (
+    <section id="news" className="relative py-28 px-6 md:px-10 border-t border-white/5">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex items-end justify-between flex-wrap gap-4 mb-14">
+          <div>
+            <div className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground mb-3">— Newsroom</div>
+            <h2 className="font-display text-4xl md:text-6xl font-bold tracking-tight">آخر الأخبار</h2>
+          </div>
+          <Link to="/news" className="inline-flex items-center gap-2 h-10 px-5 rounded-full border border-white/15 text-foreground text-[11px] tracking-[0.25em] uppercase hover:bg-white/5 transition">
+            All News →
+          </Link>
+        </div>
+
+        {items.length === 0 ? (
+          <div className="text-center py-14 text-muted-foreground font-arabic">لا توجد أخبار حالياً.</div>
+        ) : (
+          <div className="grid md:grid-cols-3 gap-5">
+            {items.map((a) => (
+              <Link
+                key={a.id}
+                to="/news/$slug"
+                params={{ slug: a.slug }}
+                className="group relative flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] hover:bg-white/[0.04] hover:border-white/25 transition p-7 min-h-[280px]"
+              >
+                {a.pinned && (
+                  <div className="absolute top-0 right-0 flex items-center gap-1.5 px-3 py-1 rounded-bl-2xl bg-gradient-to-r from-[oklch(0.75_0.18_85)]/25 to-transparent border-b border-l border-[oklch(0.75_0.18_85)]/40 text-[9px] tracking-[0.3em] uppercase text-[oklch(0.85_0.15_85)]">
+                    <span className="size-1 rounded-full bg-[oklch(0.85_0.15_85)]" /> Pinned
+                  </div>
+                )}
+                <div className="flex items-center gap-2 text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-4">
+                  <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full border border-white/10 bg-white/[0.03]">
+                    <span className="size-1 rounded-full bg-emerald-400" />
+                    {NEWS_TAG_LABEL[a.tag]}
+                  </span>
+                  <span dir="rtl" className="font-arabic">{formatNewsDate(a.published_at)}</span>
+                </div>
+                <h3 dir="rtl" className="font-arabic font-semibold text-lg leading-[1.6] mb-3 line-clamp-2">{a.title_ar}</h3>
+                <p dir="rtl" className="font-arabic text-muted-foreground text-[13.5px] leading-[2] line-clamp-3 mb-6">{a.excerpt_ar}</p>
+                <div className="mt-auto inline-flex items-center gap-2 text-[10px] tracking-[0.3em] uppercase text-foreground/70 group-hover:text-foreground transition">
+                  Read →
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
 
 function Story() {
   return (
@@ -1417,6 +1513,7 @@ function Index() {
       <main>
         <Hero />
         <Stats />
+        <Announcements />
         <Story />
         <Team />
         <Roadmap />
