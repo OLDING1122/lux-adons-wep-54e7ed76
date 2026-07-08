@@ -792,7 +792,35 @@ function Streams() {
             {liveCount} Live · {KICK_CHANNELS.length} Channels
           </div>
         </div>
-        <p dir="rtl" className="font-arabic text-muted-foreground max-w-xl mb-12">بثوث طاقم Lux على منصة Kick — تحدث تلقائياً كل دقيقة.</p>
+        <p dir="rtl" className="font-arabic text-muted-foreground max-w-xl mb-10">بثوث طاقم Lux على منصة Kick — تحدث تلقائياً كل دقيقة.</p>
+
+        {/* Animated stats — count up on scroll into view */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-12">
+          {[
+            { label: "Live Now", ar: "مباشر الآن", value: liveCount, accent: liveCount > 0 },
+            { label: "Channels", ar: "قنوات", value: KICK_CHANNELS.length },
+            { label: "Viewers", ar: "مشاهدون", value: totalViewers },
+            { label: "Archived", ar: "أرشيف", value: archive.length },
+          ].map((s) => (
+            <div
+              key={s.label}
+              className="group relative overflow-hidden rounded-xl border border-white/10 bg-white/[0.02] px-5 py-6 transition hover:border-white/25 hover:bg-white/[0.04]"
+            >
+              <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="flex items-center gap-2 text-[9px] tracking-[0.4em] uppercase text-muted-foreground mb-3">
+                <span className={`size-1.5 rounded-full ${s.accent ? "bg-emerald-400 animate-pulse" : "bg-white/25"}`} />
+                {s.label}
+              </div>
+              <CountUp
+                value={s.value}
+                className="font-display text-4xl md:text-5xl font-bold tracking-tight"
+              />
+              <div dir="rtl" className="font-arabic text-[11px] text-muted-foreground mt-2">{s.ar}</div>
+            </div>
+          ))}
+        </div>
+
+
 
         <div className="grid lg:grid-cols-[1.6fr_1fr] gap-6">
           {/* Live grid — embedded Kick players */}
