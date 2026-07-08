@@ -776,6 +776,7 @@ function Streams() {
   }, []);
 
   const liveCount = streams.filter((s) => s.isLive).length;
+  const totalViewers = streams.reduce((sum, s) => sum + (s.viewers ?? 0), 0);
 
   return (
     <section id="streams" className="relative py-28 px-6 md:px-10 border-t border-white/5">
