@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as RulesRouteImport } from './routes/rules'
+import { Route as NewsRouteImport } from './routes/news'
 import { Route as ChronicleRouteImport } from './routes/chronicle'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
@@ -17,6 +18,11 @@ import { Route as ApiChatRouteImport } from './routes/api/chat'
 const RulesRoute = RulesRouteImport.update({
   id: '/rules',
   path: '/rules',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewsRoute = NewsRouteImport.update({
+  id: '/news',
+  path: '/news',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ChronicleRoute = ChronicleRouteImport.update({
@@ -38,12 +44,14 @@ const ApiChatRoute = ApiChatRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/chronicle': typeof ChronicleRoute
+  '/news': typeof NewsRoute
   '/rules': typeof RulesRoute
   '/api/chat': typeof ApiChatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/chronicle': typeof ChronicleRoute
+  '/news': typeof NewsRoute
   '/rules': typeof RulesRoute
   '/api/chat': typeof ApiChatRoute
 }
@@ -51,20 +59,22 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/chronicle': typeof ChronicleRoute
+  '/news': typeof NewsRoute
   '/rules': typeof RulesRoute
   '/api/chat': typeof ApiChatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/chronicle' | '/rules' | '/api/chat'
+  fullPaths: '/' | '/chronicle' | '/news' | '/rules' | '/api/chat'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/chronicle' | '/rules' | '/api/chat'
-  id: '__root__' | '/' | '/chronicle' | '/rules' | '/api/chat'
+  to: '/' | '/chronicle' | '/news' | '/rules' | '/api/chat'
+  id: '__root__' | '/' | '/chronicle' | '/news' | '/rules' | '/api/chat'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ChronicleRoute: typeof ChronicleRoute
+  NewsRoute: typeof NewsRoute
   RulesRoute: typeof RulesRoute
   ApiChatRoute: typeof ApiChatRoute
 }
@@ -76,6 +86,13 @@ declare module '@tanstack/react-router' {
       path: '/rules'
       fullPath: '/rules'
       preLoaderRoute: typeof RulesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/news': {
+      id: '/news'
+      path: '/news'
+      fullPath: '/news'
+      preLoaderRoute: typeof NewsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/chronicle': {
@@ -105,6 +122,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ChronicleRoute: ChronicleRoute,
+  NewsRoute: NewsRoute,
   RulesRoute: RulesRoute,
   ApiChatRoute: ApiChatRoute,
 }
