@@ -286,7 +286,7 @@ function Announcements() {
     </section>
   );
 }
-}
+
 
 function Story() {
   return (
