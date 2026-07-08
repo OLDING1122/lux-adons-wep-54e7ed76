@@ -626,6 +626,78 @@ function KickIcon({ className = "" }: { className?: string }) {
   );
 }
 
+/**
+ * CountUp — animates a number from 0 → `value` with an ease-out curve.
+ * Starts when the element scrolls into view, and re-animates smoothly
+ * whenever `value` changes (e.g. live viewer counts refreshing).
+ */
+function CountUp({
+  value,
+  duration = 1600,
+  className = "",
+  format = (n: number) => n.toLocaleString(),
+}: {
+  value: number;
+  duration?: number;
+  className?: string;
+  format?: (n: number) => string;
+}) {
+  const ref = useRef<HTMLSpanElement | null>(null);
+  const [display, setDisplay] = useState(0);
+  const startedRef = useRef(false);
+  const fromRef = useRef(0);
+
+  // Kick off on first intersection
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting && !startedRef.current) {
+            startedRef.current = true;
+            animate(fromRef.current, value);
+            io.disconnect();
+          }
+        }
+      },
+      { threshold: 0.25 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Re-animate on value changes after the first reveal
+  useEffect(() => {
+    if (!startedRef.current) return;
+    animate(fromRef.current, value);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
+
+  function animate(from: number, to: number) {
+    const start = performance.now();
+    const delta = to - from;
+    const step = (t: number) => {
+      const p = Math.min(1, (t - start) / duration);
+      // easeOutExpo — silky smooth
+      const eased = p === 1 ? 1 : 1 - Math.pow(2, -10 * p);
+      const current = from + delta * eased;
+      setDisplay(current);
+      fromRef.current = current;
+      if (p < 1) requestAnimationFrame(step);
+      else fromRef.current = to;
+    };
+    requestAnimationFrame(step);
+  }
+
+  return (
+    <span ref={ref} className={`tabular-nums ${className}`}>
+      {format(Math.round(display))}
+    </span>
+  );
+}
+
 function Streams() {
   const [streams, setStreams] = useState<LiveInfo[]>(
     KICK_CHANNELS.map((s) => ({ slug: s, isLive: false }))
