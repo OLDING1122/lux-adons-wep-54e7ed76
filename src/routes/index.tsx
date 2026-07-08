@@ -58,6 +58,11 @@ export const Route = createFileRoute("/")({
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" },
     ],
   }),
+  loader: ({ context }) => {
+    context.queryClient.prefetchQuery(siteStatsQuery());
+    context.queryClient.prefetchQuery(announcementsQuery(3));
+    return null;
+  },
   component: Index,
 });
 
