@@ -1513,6 +1513,7 @@ function Index() {
       <main>
         <Hero />
         <Stats />
+        <Announcements />
         <Story />
         <Team />
         <Roadmap />
