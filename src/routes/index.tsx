@@ -87,6 +87,7 @@ function Navbar() {
           <li><a href="#home" className="hover:text-foreground transition">Home</a></li>
           <li><a href={STORE_URL} target="_blank" rel="noreferrer" className="font-arabic hover:text-foreground transition">المتجر</a></li>
           <li><a href="#story" className="hover:text-foreground transition">Story</a></li>
+          <li><Link to="/news" className="hover:text-foreground transition">News</Link></li>
           <li><a href="#team" className="hover:text-foreground transition">Team</a></li>
           <li><a href="#roadmap" className="hover:text-foreground transition">Roadmap</a></li>
           <li><a href="#streams" className="hover:text-foreground transition">Streams</a></li>
