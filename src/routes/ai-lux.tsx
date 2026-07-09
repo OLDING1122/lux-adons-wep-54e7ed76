@@ -3,7 +3,7 @@ import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, type UIMessage } from "ai";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Send, Sparkles, Code2, Eye, Download, Copy, Loader2, Wand2 } from "lucide-react";
-import luxLogo from "@/assets/lux-logo.png";
+import logoAsset from "@/assets/lux-logo.png.asset.json";
 
 export const Route = createFileRoute("/ai-lux")({
   head: () => ({
