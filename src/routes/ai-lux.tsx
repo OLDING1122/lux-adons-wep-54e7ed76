@@ -111,7 +111,7 @@ function AiLuxPage() {
         <h1 className="mt-3 font-display text-4xl md:text-5xl font-semibold tracking-tight">
           Lux AI
           <span className="block text-base md:text-lg font-normal mt-2 text-muted-foreground font-arabic">
-            ذكاء اصطناعي متطور — طُوِّر محلياً بقيادة فريق التطوير في Lux وبتوجيهات المالك <span className="text-amber-200">OLD</span>
+            ذكاء اصطناعي متطور — طُوِّر محلياً بقيادة فريق التطوير لدى <span className="text-amber-200">LUX</span>
           </span>
         </h1>
         <p className="mt-4 max-w-3xl text-sm md:text-[15px] leading-relaxed text-muted-foreground font-arabic">
