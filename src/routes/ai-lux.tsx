@@ -85,7 +85,7 @@ function AiLuxPage() {
       <header className="sticky top-0 z-40 backdrop-blur-xl bg-background/60 border-b border-white/5">
         <div className="max-w-[1500px] mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3">
-            <img src={luxLogo} alt="Lux" className="h-8 w-8 rounded-full ring-1 ring-white/15" />
+            <img src={logoAsset.url} alt="Lux" className="h-8 w-8 rounded-full ring-1 ring-white/15" />
             <div className="flex flex-col leading-none">
               <span className="text-[10px] tracking-[0.35em] uppercase text-muted-foreground">Lux Addons</span>
               <span className="font-display text-sm tracking-widest">AI · LUX</span>
