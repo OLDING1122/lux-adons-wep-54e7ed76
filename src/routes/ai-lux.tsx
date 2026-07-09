@@ -18,11 +18,18 @@ export const Route = createFileRoute("/ai-lux")({
 });
 
 function extractHtml(text: string): string | null {
-  const m = text.match(/```html\s*([\s\S]*?)```/i);
-  if (m && m[1].trim()) return m[1].trim();
-  // fallback: any doctype in message
+  // Completed ```html ... ``` block
+  const closed = text.match(/```html\s*([\s\S]*?)```/i);
+  if (closed && closed[1].trim()) return closed[1].trim();
+  // Streaming (unterminated) ```html ...
+  const open = text.match(/```html\s*([\s\S]*)$/i);
+  if (open && /<[a-z!]/i.test(open[1])) return open[1].trim();
+  // Fallback: any full doctype in message
   const d = text.match(/<!doctype html[\s\S]*?<\/html>/i);
-  return d ? d[0] : null;
+  if (d) return d[0];
+  // Streaming doctype without closing tag
+  const ds = text.match(/<!doctype html[\s\S]*$/i);
+  return ds ? ds[0] : null;
 }
 
 function messageText(m: UIMessage): string {
