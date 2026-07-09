@@ -12,9 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as RulesRouteImport } from './routes/rules'
 import { Route as NewsRouteImport } from './routes/news'
 import { Route as ChronicleRouteImport } from './routes/chronicle'
+import { Route as AiLuxRouteImport } from './routes/ai-lux'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as NewsSlugRouteImport } from './routes/news.$slug'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as ApiAiLuxRouteImport } from './routes/api/ai-lux'
 
 const RulesRoute = RulesRouteImport.update({
   id: '/rules',
@@ -29,6 +31,11 @@ const NewsRoute = NewsRouteImport.update({
 const ChronicleRoute = ChronicleRouteImport.update({
   id: '/chronicle',
   path: '/chronicle',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AiLuxRoute = AiLuxRouteImport.update({
+  id: '/ai-lux',
+  path: '/ai-lux',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -46,29 +53,40 @@ const ApiChatRoute = ApiChatRouteImport.update({
   path: '/api/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiAiLuxRoute = ApiAiLuxRouteImport.update({
+  id: '/api/ai-lux',
+  path: '/api/ai-lux',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/ai-lux': typeof AiLuxRoute
   '/chronicle': typeof ChronicleRoute
   '/news': typeof NewsRouteWithChildren
   '/rules': typeof RulesRoute
+  '/api/ai-lux': typeof ApiAiLuxRoute
   '/api/chat': typeof ApiChatRoute
   '/news/$slug': typeof NewsSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/ai-lux': typeof AiLuxRoute
   '/chronicle': typeof ChronicleRoute
   '/news': typeof NewsRouteWithChildren
   '/rules': typeof RulesRoute
+  '/api/ai-lux': typeof ApiAiLuxRoute
   '/api/chat': typeof ApiChatRoute
   '/news/$slug': typeof NewsSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/ai-lux': typeof AiLuxRoute
   '/chronicle': typeof ChronicleRoute
   '/news': typeof NewsRouteWithChildren
   '/rules': typeof RulesRoute
+  '/api/ai-lux': typeof ApiAiLuxRoute
   '/api/chat': typeof ApiChatRoute
   '/news/$slug': typeof NewsSlugRoute
 }
@@ -76,28 +94,42 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/ai-lux'
     | '/chronicle'
     | '/news'
     | '/rules'
+    | '/api/ai-lux'
     | '/api/chat'
     | '/news/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/chronicle' | '/news' | '/rules' | '/api/chat' | '/news/$slug'
-  id:
-    | '__root__'
+  to:
     | '/'
+    | '/ai-lux'
     | '/chronicle'
     | '/news'
     | '/rules'
+    | '/api/ai-lux'
+    | '/api/chat'
+    | '/news/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/ai-lux'
+    | '/chronicle'
+    | '/news'
+    | '/rules'
+    | '/api/ai-lux'
     | '/api/chat'
     | '/news/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AiLuxRoute: typeof AiLuxRoute
   ChronicleRoute: typeof ChronicleRoute
   NewsRoute: typeof NewsRouteWithChildren
   RulesRoute: typeof RulesRoute
+  ApiAiLuxRoute: typeof ApiAiLuxRoute
   ApiChatRoute: typeof ApiChatRoute
 }
 
@@ -124,6 +156,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ChronicleRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ai-lux': {
+      id: '/ai-lux'
+      path: '/ai-lux'
+      fullPath: '/ai-lux'
+      preLoaderRoute: typeof AiLuxRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -145,6 +184,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiChatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/ai-lux': {
+      id: '/api/ai-lux'
+      path: '/api/ai-lux'
+      fullPath: '/api/ai-lux'
+      preLoaderRoute: typeof ApiAiLuxRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -160,9 +206,11 @@ const NewsRouteWithChildren = NewsRoute._addFileChildren(NewsRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AiLuxRoute: AiLuxRoute,
   ChronicleRoute: ChronicleRoute,
   NewsRoute: NewsRouteWithChildren,
   RulesRoute: RulesRoute,
+  ApiAiLuxRoute: ApiAiLuxRoute,
   ApiChatRoute: ApiChatRoute,
 }
 export const routeTree = rootRouteImport
