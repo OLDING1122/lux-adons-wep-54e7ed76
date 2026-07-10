@@ -81,9 +81,9 @@ function Logo({ className = "" }: { className?: string }) {
 function Navbar() {
   return (
     <header className="fixed top-0 inset-x-0 z-50 backdrop-blur-xl bg-background/50 border-b border-white/5">
-      <nav className="max-w-7xl mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
+      <nav className="max-w-7xl mx-auto px-6 md:px-10 h-16 flex items-center justify-between gap-6">
         <Logo />
-        <ul className="hidden md:flex items-center gap-7 text-[11px] tracking-[0.28em] uppercase text-muted-foreground">
+        <ul className="hidden md:flex items-center gap-5 text-[10.5px] tracking-[0.26em] uppercase text-muted-foreground">
           <li><a href="#home" className="hover:text-foreground transition">Home</a></li>
           <li><a href={STORE_URL} target="_blank" rel="noreferrer" className="font-arabic hover:text-foreground transition">المتجر</a></li>
           <li><a href="#story" className="hover:text-foreground transition">Story</a></li>
@@ -91,18 +91,27 @@ function Navbar() {
           <li><a href="#team" className="hover:text-foreground transition">Team</a></li>
           <li><a href="#roadmap" className="hover:text-foreground transition">Roadmap</a></li>
           <li><a href="#streams" className="hover:text-foreground transition">Streams</a></li>
-          <li><a href="#faq" className="hover:text-foreground transition">FAQ</a></li>
           <li><Link to="/chronicle" className="hover:text-foreground transition">Chronicle</Link></li>
-          <li><Link to="/ai-lux" className="text-amber-200/90 hover:text-amber-100 transition">AI Lux</Link></li>
           <li><Link to="/rules" className="hover:text-foreground transition">Rules</Link></li>
+          <li>
+            <Link
+              to="/ai-lux"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-amber-200/30 bg-amber-200/5 text-amber-200/90 hover:text-amber-100 hover:border-amber-200/60 transition"
+            >
+              <span className="size-1 rounded-full bg-amber-200 animate-pulse" />
+              AI Lux
+            </Link>
+          </li>
         </ul>
         <a
           href={DISCORD_URL}
           target="_blank"
           rel="noreferrer"
-          className="inline-flex items-center gap-2 h-9 px-5 rounded-full bg-foreground text-background text-[11px] tracking-[0.25em] uppercase font-medium hover:opacity-90 transition"
+          title="Discord"
+          aria-label="Discord"
+          className="inline-flex items-center justify-center size-8 rounded-full bg-foreground text-background hover:opacity-90 transition shrink-0"
         >
-          <DiscordIcon className="size-4" /> Discord
+          <DiscordIcon className="size-3.5" />
         </a>
       </nav>
     </header>
@@ -171,7 +180,7 @@ function Stats() {
     { key: "inactive", value: data?.inactive_addons ?? 0, label: "Offline Addons", sub: "أدونز غير نشط" },
     { key: "active", value: data?.active_addons ?? 0, label: "Online Addons", sub: "أدونز نشطة الآن" },
     { key: "total", value: data?.total_addons ?? 0, label: "Total Released", sub: "إجمالي الأدونز" },
-    { key: "community", value: data?.community_members ?? 0, label: "Community", sub: "أعضاء المجتمع" },
+    { key: "community", value: 20000, label: "Goal", sub: "الهدف" },
   ];
   const updated = data?.updated_at ? new Date(data.updated_at) : null;
   return (
