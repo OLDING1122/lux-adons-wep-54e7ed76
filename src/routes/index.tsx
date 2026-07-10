@@ -180,7 +180,7 @@ function Stats() {
     { key: "inactive", value: data?.inactive_addons ?? 0, label: "Offline Addons", sub: "أدونز غير نشط" },
     { key: "active", value: data?.active_addons ?? 0, label: "Online Addons", sub: "أدونز نشطة الآن" },
     { key: "total", value: data?.total_addons ?? 0, label: "Total Released", sub: "إجمالي الأدونز" },
-    { key: "community", value: data?.community_members ?? 0, label: "Community", sub: "أعضاء المجتمع" },
+    { key: "community", value: 20000, label: "Goal", sub: "الهدف" },
   ];
   const updated = data?.updated_at ? new Date(data.updated_at) : null;
   return (
