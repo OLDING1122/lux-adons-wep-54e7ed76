@@ -131,3 +131,4 @@ export function LuxFooter() {
     </footer>
   );
 }
+
