@@ -9,23 +9,42 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WebEncryptionRouteImport } from './routes/web-encryption'
 import { Route as RulesRouteImport } from './routes/rules'
+import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as NewsRouteImport } from './routes/news'
+import { Route as ImageGeneratorRouteImport } from './routes/image-generator'
 import { Route as ChronicleRouteImport } from './routes/chronicle'
 import { Route as AiLuxRouteImport } from './routes/ai-lux'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as NewsSlugRouteImport } from './routes/news.$slug'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as ApiAiLuxRouteImport } from './routes/api/ai-lux'
 
+const WebEncryptionRoute = WebEncryptionRouteImport.update({
+  id: '/web-encryption',
+  path: '/web-encryption',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RulesRoute = RulesRouteImport.update({
   id: '/rules',
   path: '/rules',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProjectsRoute = ProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const NewsRoute = NewsRouteImport.update({
   id: '/news',
   path: '/news',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ImageGeneratorRoute = ImageGeneratorRouteImport.update({
+  id: '/image-generator',
+  path: '/image-generator',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ChronicleRoute = ChronicleRouteImport.update({
@@ -36,6 +55,11 @@ const ChronicleRoute = ChronicleRouteImport.update({
 const AiLuxRoute = AiLuxRouteImport.update({
   id: '/ai-lux',
   path: '/ai-lux',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -61,20 +85,28 @@ const ApiAiLuxRoute = ApiAiLuxRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/ai-lux': typeof AiLuxRoute
   '/chronicle': typeof ChronicleRoute
+  '/image-generator': typeof ImageGeneratorRoute
   '/news': typeof NewsRouteWithChildren
+  '/projects': typeof ProjectsRoute
   '/rules': typeof RulesRoute
+  '/web-encryption': typeof WebEncryptionRoute
   '/api/ai-lux': typeof ApiAiLuxRoute
   '/api/chat': typeof ApiChatRoute
   '/news/$slug': typeof NewsSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/ai-lux': typeof AiLuxRoute
   '/chronicle': typeof ChronicleRoute
+  '/image-generator': typeof ImageGeneratorRoute
   '/news': typeof NewsRouteWithChildren
+  '/projects': typeof ProjectsRoute
   '/rules': typeof RulesRoute
+  '/web-encryption': typeof WebEncryptionRoute
   '/api/ai-lux': typeof ApiAiLuxRoute
   '/api/chat': typeof ApiChatRoute
   '/news/$slug': typeof NewsSlugRoute
@@ -82,10 +114,14 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/ai-lux': typeof AiLuxRoute
   '/chronicle': typeof ChronicleRoute
+  '/image-generator': typeof ImageGeneratorRoute
   '/news': typeof NewsRouteWithChildren
+  '/projects': typeof ProjectsRoute
   '/rules': typeof RulesRoute
+  '/web-encryption': typeof WebEncryptionRoute
   '/api/ai-lux': typeof ApiAiLuxRoute
   '/api/chat': typeof ApiChatRoute
   '/news/$slug': typeof NewsSlugRoute
@@ -94,30 +130,42 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/ai-lux'
     | '/chronicle'
+    | '/image-generator'
     | '/news'
+    | '/projects'
     | '/rules'
+    | '/web-encryption'
     | '/api/ai-lux'
     | '/api/chat'
     | '/news/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/admin'
     | '/ai-lux'
     | '/chronicle'
+    | '/image-generator'
     | '/news'
+    | '/projects'
     | '/rules'
+    | '/web-encryption'
     | '/api/ai-lux'
     | '/api/chat'
     | '/news/$slug'
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/ai-lux'
     | '/chronicle'
+    | '/image-generator'
     | '/news'
+    | '/projects'
     | '/rules'
+    | '/web-encryption'
     | '/api/ai-lux'
     | '/api/chat'
     | '/news/$slug'
@@ -125,16 +173,27 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
   AiLuxRoute: typeof AiLuxRoute
   ChronicleRoute: typeof ChronicleRoute
+  ImageGeneratorRoute: typeof ImageGeneratorRoute
   NewsRoute: typeof NewsRouteWithChildren
+  ProjectsRoute: typeof ProjectsRoute
   RulesRoute: typeof RulesRoute
+  WebEncryptionRoute: typeof WebEncryptionRoute
   ApiAiLuxRoute: typeof ApiAiLuxRoute
   ApiChatRoute: typeof ApiChatRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/web-encryption': {
+      id: '/web-encryption'
+      path: '/web-encryption'
+      fullPath: '/web-encryption'
+      preLoaderRoute: typeof WebEncryptionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/rules': {
       id: '/rules'
       path: '/rules'
@@ -142,11 +201,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RulesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/projects': {
+      id: '/projects'
+      path: '/projects'
+      fullPath: '/projects'
+      preLoaderRoute: typeof ProjectsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/news': {
       id: '/news'
       path: '/news'
       fullPath: '/news'
       preLoaderRoute: typeof NewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/image-generator': {
+      id: '/image-generator'
+      path: '/image-generator'
+      fullPath: '/image-generator'
+      preLoaderRoute: typeof ImageGeneratorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/chronicle': {
@@ -161,6 +234,13 @@ declare module '@tanstack/react-router' {
       path: '/ai-lux'
       fullPath: '/ai-lux'
       preLoaderRoute: typeof AiLuxRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -206,13 +286,27 @@ const NewsRouteWithChildren = NewsRoute._addFileChildren(NewsRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
   AiLuxRoute: AiLuxRoute,
   ChronicleRoute: ChronicleRoute,
+  ImageGeneratorRoute: ImageGeneratorRoute,
   NewsRoute: NewsRouteWithChildren,
+  ProjectsRoute: ProjectsRoute,
   RulesRoute: RulesRoute,
+  WebEncryptionRoute: WebEncryptionRoute,
   ApiAiLuxRoute: ApiAiLuxRoute,
   ApiChatRoute: ApiChatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
