@@ -412,6 +412,7 @@ const FOUNDER_PROFILES: Record<string, Profile> = {
     handle: "abuhajer",
     bio: "الجندي المجهول — رأس التطوير والتنزيل. صاحب الفضل الأكبر بعد الله في نجاح الأدونز.",
     roles: [
+      { label: "Founder · مؤسس", color: "oklch(0.75 0.18 45)" },
       { label: "Council · مجلس الإدارة", color: "oklch(0.7 0.15 260)" },
       { label: "Lead Developer", color: "oklch(0.7 0.16 150)" },
     ],
@@ -427,10 +428,10 @@ const FOUNDER_PROFILES: Record<string, Profile> = {
   "Bn Mansour": {
     name: "Bn Mansour",
     handle: "bnmansour",
-    bio: "مؤسس مشارك — العمليات والإدارة اليومية للفريق والمجتمع.",
+    bio: "مؤسس — العمليات والإدارة اليومية للفريق والمجتمع.",
     roles: [
       { label: "Council · مجلس الإدارة", color: "oklch(0.7 0.15 260)" },
-      { label: "Co-Founder · مؤسس مشارك", color: "oklch(0.75 0.18 45)" },
+      { label: "Founder · مؤسس", color: "oklch(0.75 0.18 45)" },
     ],
     badges: [{ label: "LUX ✦", color: "bg-[oklch(0.25_0.1_260)]" }],
     joined: "MMXXIV",
@@ -604,7 +605,7 @@ function AvatarButton({
 function Team() {
   const members = [
     { name: "OLD", role: "Founder · مؤسس", tag: "Vision", bg: oldBg.url, pos: "object-left", profile: FOUNDER_PROFILES.OLD },
-    { name: "AbuHaJeRrR", role: "Lead Developer · الجندي المجهول", tag: "Development", bg: abuhajerBg.url, pos: "object-center", profile: FOUNDER_PROFILES.AbuHaJeRrR },
+    { name: "AbuHaJeRrR", role: "Lead Developer · الجندي المجهول · Founder", tag: "Development", bg: abuhajerBg.url, pos: "object-center", profile: FOUNDER_PROFILES.AbuHaJeRrR },
     { name: "Bn Mansour", role: "Founder · مؤسس", tag: "Operations", bg: bnmansourBg.url, pos: "object-center", profile: FOUNDER_PROFILES["Bn Mansour"] },
   ];
 
@@ -1160,31 +1161,63 @@ function ProjectsLux() {
         </div>
 
         <div className="grid lg:grid-cols-[1.15fr_0.85fr] gap-6 items-stretch">
-          <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.05] to-white/[0.02] p-8 md:p-10 hover:border-white/25 transition">
-            <div className="absolute inset-0 opacity-[0.06] mix-blend-overlay" style={{ backgroundImage: "url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'200\'><filter id=\'n\'><feTurbulence baseFrequency=\'0.9\' numOctaves=\'2\' stitchTiles=\'stitch\'/></filter><rect width=\'100%\' height=\'100%\' filter=\'url(%23n)\'/></svg>')" }} />
-            <div className="relative flex items-center justify-between gap-4 flex-wrap">
-              <div className="inline-flex items-center gap-2 rounded-full border border-amber-200/20 bg-amber-200/5 px-3 py-1.5 text-[10px] tracking-[0.3em] uppercase text-amber-200/90">
-                <span className="size-1.5 rounded-full bg-amber-200 animate-pulse" />
-                Project 01
+          <div className="space-y-6">
+            <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.05] to-white/[0.02] p-8 md:p-10 hover:border-white/25 transition">
+              <div className="absolute inset-0 opacity-[0.06] mix-blend-overlay" style={{ backgroundImage: "url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'200\'><filter id=\'n\'><feTurbulence baseFrequency=\'0.9\' numOctaves=\'2\' stitchTiles=\'stitch\'/></filter><rect width=\'100%\' height=\'100%\' filter=\'url(%23n)\'/></svg>')" }} />
+              <div className="relative flex items-center justify-between gap-4 flex-wrap">
+                <div className="inline-flex items-center gap-2 rounded-full border border-amber-200/20 bg-amber-200/5 px-3 py-1.5 text-[10px] tracking-[0.3em] uppercase text-amber-200/90">
+                  <span className="size-1.5 rounded-full bg-amber-200 animate-pulse" />
+                  Project 01
+                </div>
+                <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground">LUX LABS</div>
               </div>
-              <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground">LUX LABS</div>
+
+              <div className="relative mt-8">
+                <h3 className="font-display text-3xl md:text-5xl font-bold tracking-tight">أداة توليد الصور</h3>
+                <p dir="rtl" className="font-arabic text-muted-foreground text-[15px] leading-[2] mt-5 max-w-2xl">
+                  مشروع Lux الأول: أداة مخصصة لتوليد الصور بالذكاء الاصطناعي داخل هوية Lux.
+                  الهدف منها إنشاء صور احترافية وسريعة للمشاريع، الإعلانات، البنرات، والأفكار البصرية من داخل نفس المنصة.
+                </p>
+
+                <div dir="rtl" className="grid sm:grid-cols-2 gap-3 mt-8">
+                  <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
+                    <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-2">Use Case 01</div>
+                    <div className="font-arabic text-sm text-foreground/90">تصميم صور دعائية وبنرات للسيرفرات والمتاجر.</div>
+                  </div>
+                  <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
+                    <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-2">Use Case 02</div>
+                    <div className="font-arabic text-sm text-foreground/90">إنشاء مفاهيم بصرية سريعة للمحتوى والأفكار الجديدة.</div>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div className="relative mt-8">
-              <h3 className="font-display text-3xl md:text-5xl font-bold tracking-tight">أداة توليد الصور</h3>
-              <p dir="rtl" className="font-arabic text-muted-foreground text-[15px] leading-[2] mt-5 max-w-2xl">
-                مشروع Lux الأول: أداة مخصصة لتوليد الصور بالذكاء الاصطناعي داخل هوية Lux.
-                الهدف منها إنشاء صور احترافية وسريعة للمشاريع، الإعلانات، البنرات، والأفكار البصرية من داخل نفس المنصة.
-              </p>
-
-              <div dir="rtl" className="grid sm:grid-cols-2 gap-3 mt-8">
-                <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                  <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-2">Use Case 01</div>
-                  <div className="font-arabic text-sm text-foreground/90">تصميم صور دعائية وبنرات للسيرفرات والمتاجر.</div>
+            <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[oklch(0.11_0.02_260)] to-white/[0.02] p-8 md:p-10 hover:border-white/25 transition">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(124,92,255,0.14),transparent_30%)]" />
+              <div className="relative flex items-center justify-between gap-4 flex-wrap">
+                <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-3 py-1.5 text-[10px] tracking-[0.3em] uppercase text-foreground/85">
+                  <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  Project 02
                 </div>
-                <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                  <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-2">Use Case 02</div>
-                  <div className="font-arabic text-sm text-foreground/90">إنشاء مفاهيم بصرية سريعة للمحتوى والأفكار الجديدة.</div>
+                <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground">Admin Crew Design</div>
+              </div>
+
+              <div className="relative mt-8">
+                <h3 className="font-display text-3xl md:text-5xl font-bold tracking-tight">أداة تشفير مواقع</h3>
+                <p dir="rtl" className="font-arabic text-muted-foreground text-[15px] leading-[2] mt-5 max-w-2xl">
+                  أداة تشفير مواقع بتصميم من الطاقم الإداري لدى Lux، بالتعاون مع شركاء معروفين في نفس المجال.
+                  هدفها تقديم طبقة حماية وخصوصية أفضل للمشاريع والواجهات البرمجية مع تجربة استخدام منظمة وفاخرة.
+                </p>
+
+                <div dir="rtl" className="grid sm:grid-cols-2 gap-3 mt-8">
+                  <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
+                    <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-2">Focus 01</div>
+                    <div className="font-arabic text-sm text-foreground/90">تشفير وحماية ملفات المواقع والواجهات الخاصة بالمشاريع.</div>
+                  </div>
+                  <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
+                    <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-2">Focus 02</div>
+                    <div className="font-arabic text-sm text-foreground/90">بناء أداة احترافية تحمل هوية Lux وتخدم شركاء المجال التقني.</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1193,13 +1226,13 @@ function ProjectsLux() {
           <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] p-6 md:p-8">
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/30" />
             <div className="relative h-full flex flex-col">
-              <div className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground mb-4">Preview Card</div>
+              <div className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground mb-4">Projects Overview</div>
               <div className="rounded-2xl border border-white/10 bg-background/60 p-5 mb-5">
                 <div className="aspect-[4/3] rounded-xl border border-white/10 bg-[radial-gradient(circle_at_50%_20%,rgba(255,255,255,0.16),transparent_20%),linear-gradient(135deg,rgba(124,92,255,0.35),rgba(0,0,0,0.1),rgba(231,201,128,0.15))] grid place-items-center overflow-hidden">
                   <div className="text-center px-6">
-                    <div className="font-display text-2xl md:text-3xl font-bold tracking-tight">Image Generator</div>
+                    <div className="font-display text-2xl md:text-3xl font-bold tracking-tight">LUX Projects Hub</div>
                     <div dir="rtl" className="font-arabic text-sm text-foreground/75 mt-2 leading-[1.9]">
-                      مساحة أولية لعرض مشروع أداة توليد الصور داخل قسم مشاريع LUX.
+                      مساحة لعرض مشاريع Lux الحالية والقادمة ضمن واجهة واحدة مرتبة.
                     </div>
                   </div>
                 </div>
@@ -1207,12 +1240,12 @@ function ProjectsLux() {
 
               <div className="space-y-3 mt-auto">
                 <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3">
-                  <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground">Status</div>
-                  <div dir="rtl" className="font-arabic text-sm mt-1">جاهز للربط لاحقًا بواجهة أو صفحة مستقلة.</div>
+                  <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground">Current Projects</div>
+                  <div dir="rtl" className="font-arabic text-sm mt-1">أداة توليد الصور + أداة تشفير مواقع.</div>
                 </div>
                 <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3">
                   <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground">Next Step</div>
-                  <div dir="rtl" className="font-arabic text-sm mt-1">إذا تبغى، الخطوة الجاية أحوله إلى صفحة فعلية لتوليد الصور.</div>
+                  <div dir="rtl" className="font-arabic text-sm mt-1">إذا تبغى، الخطوة الجاية أحول أي مشروع منها إلى صفحة فعلية مستقلة.</div>
                 </div>
               </div>
             </div>
