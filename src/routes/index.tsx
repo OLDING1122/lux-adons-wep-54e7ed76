@@ -5,6 +5,9 @@ import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import { siteStatsQuery, announcementsQuery, type Announcement } from "@/lib/site-queries";
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
+import { LuxFooter, LuxNavbar } from "@/components/lux-chrome";
+import { DISCORD_URL, STORE_URL, LXX_URL } from "@/lib/constants";
+import { luxProjects, projectStatusArabic, projectStatusClass, projectStatusLabel } from "@/lib/lux-projects";
 import logoAsset from "@/assets/lux-logo.png.asset.json";
 import knightAsset from "@/assets/knight-castle-lit.png.asset.json";
 import knightVideo from "@/assets/knights-night-battle.mp4.asset.json";
@@ -37,10 +40,6 @@ import soundfxImg from "@/assets/roadmap/soundfx.jpg.asset.json";
 import soundmk2Img from "@/assets/roadmap/soundmk2.jpg.asset.json";
 import soundheavyImg from "@/assets/roadmap/soundheavy.jpg.asset.json";
 import reshadeImg from "@/assets/roadmap/reshade.jpg.asset.json";
-
-const DISCORD_URL = "https://discord.gg/3RwEkB6k94";
-const STORE_URL = "https://luxaddons.rmz.gg/";
-
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -79,44 +78,7 @@ function Logo({ className = "" }: { className?: string }) {
 }
 
 function Navbar() {
-  return (
-    <header className="fixed top-0 inset-x-0 z-50 backdrop-blur-xl bg-background/50 border-b border-white/5">
-      <nav className="max-w-7xl mx-auto px-6 md:px-10 h-16 flex items-center justify-between gap-6">
-        <Logo />
-        <ul className="hidden md:flex items-center gap-5 text-[10.5px] tracking-[0.26em] uppercase text-muted-foreground">
-          <li><a href="#home" className="hover:text-foreground transition">Home</a></li>
-          <li><a href={STORE_URL} target="_blank" rel="noreferrer" className="font-arabic hover:text-foreground transition">المتجر</a></li>
-          <li><a href="#story" className="hover:text-foreground transition">Story</a></li>
-          <li><Link to="/news" className="hover:text-foreground transition">News</Link></li>
-          <li><a href="#team" className="hover:text-foreground transition">Team</a></li>
-          <li><a href="#roadmap" className="hover:text-foreground transition">Roadmap</a></li>
-          <li><a href="#projects-lux" className="font-arabic hover:text-foreground transition">مشاريع LUX</a></li>
-          <li><a href="#streams" className="hover:text-foreground transition">Streams</a></li>
-          <li><Link to="/chronicle" className="hover:text-foreground transition">Chronicle</Link></li>
-          <li><Link to="/rules" className="hover:text-foreground transition">Rules</Link></li>
-          <li>
-            <Link
-              to="/ai-lux"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-amber-200/30 bg-amber-200/5 text-amber-200/90 hover:text-amber-100 hover:border-amber-200/60 transition"
-            >
-              <span className="size-1 rounded-full bg-amber-200 animate-pulse" />
-              AI Lux
-            </Link>
-          </li>
-        </ul>
-        <a
-          href={DISCORD_URL}
-          target="_blank"
-          rel="noreferrer"
-          title="Discord"
-          aria-label="Discord"
-          className="inline-flex items-center justify-center size-8 rounded-full bg-foreground text-background hover:opacity-90 transition shrink-0"
-        >
-          <DiscordIcon className="size-3.5" />
-        </a>
-      </nav>
-    </header>
-  );
+  return <LuxNavbar showHomeAnchorLinks />;
 }
 
 function DiscordIcon({ className = "" }: { className?: string }) {
@@ -385,8 +347,6 @@ type Profile = {
   status?: "online" | "idle" | "dnd" | "offline";
   activity?: string;
 };
-
-const LXX_URL = "https://discord.gg/lxx";
 
 // Founder profiles
 const FOUNDER_PROFILES: Record<string, Profile> = {
@@ -1142,6 +1102,8 @@ function Roadmap() {
 }
 
 function ProjectsLux() {
+  const spotlight = luxProjects.filter((project) => project.published).slice(0, 3);
+
   return (
     <section id="projects-lux" className="relative py-28 px-6 md:px-10 border-t border-white/5 overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
@@ -1155,106 +1117,56 @@ function ProjectsLux() {
             <div className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground mb-3">— Lux Projects</div>
             <h2 className="font-display text-4xl md:text-6xl font-bold tracking-tight">مشاريع LUX</h2>
           </div>
-          <p dir="rtl" className="font-arabic text-muted-foreground max-w-lg leading-[2]">
-            هنا راح تنعرض مشاريع Lux القادمة والمنتجات الخاصة اللي نقدر نطورها داخل الموقع.
-          </p>
+          <div className="flex flex-wrap gap-3">
+            <Link to="/projects" className="inline-flex items-center gap-2 h-10 px-5 rounded-full border border-white/15 text-foreground text-[11px] tracking-[0.25em] uppercase hover:bg-white/5 transition">
+              Projects Hub →
+            </Link>
+            <Link to="/admin" className="inline-flex items-center gap-2 h-10 px-5 rounded-full border border-white/10 text-muted-foreground text-[11px] tracking-[0.25em] uppercase hover:text-foreground hover:bg-white/5 transition">
+              Admin →
+            </Link>
+          </div>
         </div>
 
-        <div className="grid lg:grid-cols-[1.15fr_0.85fr] gap-6 items-stretch">
-          <div className="space-y-6">
-            <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.05] to-white/[0.02] p-8 md:p-10 hover:border-white/25 transition">
-              <div className="absolute inset-0 opacity-[0.06] mix-blend-overlay" style={{ backgroundImage: "url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'200\'><filter id=\'n\'><feTurbulence baseFrequency=\'0.9\' numOctaves=\'2\' stitchTiles=\'stitch\'/></filter><rect width=\'100%\' height=\'100%\' filter=\'url(%23n)\'/></svg>')" }} />
-              <div className="relative flex items-center justify-between gap-4 flex-wrap">
-                <div className="inline-flex items-center gap-2 rounded-full border border-amber-200/20 bg-amber-200/5 px-3 py-1.5 text-[10px] tracking-[0.3em] uppercase text-amber-200/90">
-                  <span className="size-1.5 rounded-full bg-amber-200 animate-pulse" />
-                  Project 01
+        <div className="grid lg:grid-cols-3 gap-5">
+          {spotlight.map((project) => (
+            <Link
+              key={project.slug}
+              to={project.route as "/projects" | "/image-generator" | "/web-encryption" | "/ai-lux"}
+              className="group overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] hover:bg-white/[0.05] hover:border-white/20 transition"
+            >
+              <div className="relative aspect-[16/10] overflow-hidden">
+                <img src={project.heroImage} alt={project.heroAlt} className="absolute inset-0 size-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/45 to-transparent" />
+                <div className={`absolute top-4 left-4 inline-flex rounded-full border px-3 py-1 text-[9px] tracking-[0.22em] uppercase backdrop-blur bg-background/50 ${projectStatusClass[project.status]}`}>
+                  {projectStatusLabel[project.status]}
                 </div>
-                <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground">LUX LABS</div>
+                <div className="absolute top-4 right-4 text-[10px] tracking-[0.28em] uppercase text-muted-foreground px-2.5 py-1 rounded-full bg-background/45 border border-white/10">
+                  {project.category}
+                </div>
+                <div className="absolute inset-x-0 bottom-0 p-5">
+                  <h3 className="font-display text-3xl font-bold tracking-tight">{project.title}</h3>
+                  <p dir="rtl" className="font-arabic mt-2 text-sm text-foreground/80 leading-[1.9] line-clamp-2">
+                    {project.summary}
+                  </p>
+                </div>
               </div>
-
-              <div className="relative mt-8">
-                <h3 className="font-display text-3xl md:text-5xl font-bold tracking-tight">أداة توليد الصور</h3>
-                <p dir="rtl" className="font-arabic text-muted-foreground text-[15px] leading-[2] mt-5 max-w-2xl">
-                  مشروع Lux الأول: أداة مخصصة لتوليد الصور بالذكاء الاصطناعي داخل هوية Lux.
-                  الهدف منها إنشاء صور احترافية وسريعة للمشاريع، الإعلانات، البنرات، والأفكار البصرية من داخل نفس المنصة.
-                </p>
-
-                <div dir="rtl" className="grid sm:grid-cols-2 gap-3 mt-8">
-                  <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                    <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-2">Use Case 01</div>
-                    <div className="font-arabic text-sm text-foreground/90">تصميم صور دعائية وبنرات للسيرفرات والمتاجر.</div>
+              <div className="p-5">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="min-w-0">
+                    <div className="text-[10px] tracking-[0.26em] uppercase text-muted-foreground">Status</div>
+                    <div dir="rtl" className="font-arabic text-sm mt-1 text-foreground/85">{projectStatusArabic[project.status]}</div>
                   </div>
-                  <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                    <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-2">Use Case 02</div>
-                    <div className="font-arabic text-sm text-foreground/90">إنشاء مفاهيم بصرية سريعة للمحتوى والأفكار الجديدة.</div>
-                  </div>
+                  <div className="text-[10px] tracking-[0.26em] uppercase text-amber-200/80 group-hover:text-amber-100 transition">Open →</div>
                 </div>
               </div>
-            </div>
-
-            <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[oklch(0.11_0.02_260)] to-white/[0.02] p-8 md:p-10 hover:border-white/25 transition">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(124,92,255,0.14),transparent_30%)]" />
-              <div className="relative flex items-center justify-between gap-4 flex-wrap">
-                <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-3 py-1.5 text-[10px] tracking-[0.3em] uppercase text-foreground/85">
-                  <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  Project 02
-                </div>
-                <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground">Admin Crew Design</div>
-              </div>
-
-              <div className="relative mt-8">
-                <h3 className="font-display text-3xl md:text-5xl font-bold tracking-tight">أداة تشفير مواقع</h3>
-                <p dir="rtl" className="font-arabic text-muted-foreground text-[15px] leading-[2] mt-5 max-w-2xl">
-                  أداة تشفير مواقع بتصميم من الطاقم الإداري لدى Lux، بالتعاون مع شركاء معروفين في نفس المجال.
-                  هدفها تقديم طبقة حماية وخصوصية أفضل للمشاريع والواجهات البرمجية مع تجربة استخدام منظمة وفاخرة.
-                </p>
-
-                <div dir="rtl" className="grid sm:grid-cols-2 gap-3 mt-8">
-                  <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                    <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-2">Focus 01</div>
-                    <div className="font-arabic text-sm text-foreground/90">تشفير وحماية ملفات المواقع والواجهات الخاصة بالمشاريع.</div>
-                  </div>
-                  <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                    <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-2">Focus 02</div>
-                    <div className="font-arabic text-sm text-foreground/90">بناء أداة احترافية تحمل هوية Lux وتخدم شركاء المجال التقني.</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] p-6 md:p-8">
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/30" />
-            <div className="relative h-full flex flex-col">
-              <div className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground mb-4">Projects Overview</div>
-              <div className="rounded-2xl border border-white/10 bg-background/60 p-5 mb-5">
-                <div className="aspect-[4/3] rounded-xl border border-white/10 bg-[radial-gradient(circle_at_50%_20%,rgba(255,255,255,0.16),transparent_20%),linear-gradient(135deg,rgba(124,92,255,0.35),rgba(0,0,0,0.1),rgba(231,201,128,0.15))] grid place-items-center overflow-hidden">
-                  <div className="text-center px-6">
-                    <div className="font-display text-2xl md:text-3xl font-bold tracking-tight">LUX Projects Hub</div>
-                    <div dir="rtl" className="font-arabic text-sm text-foreground/75 mt-2 leading-[1.9]">
-                      مساحة لعرض مشاريع Lux الحالية والقادمة ضمن واجهة واحدة مرتبة.
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-3 mt-auto">
-                <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3">
-                  <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground">Current Projects</div>
-                  <div dir="rtl" className="font-arabic text-sm mt-1">أداة توليد الصور + أداة تشفير مواقع.</div>
-                </div>
-                <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3">
-                  <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground">Next Step</div>
-                  <div dir="rtl" className="font-arabic text-sm mt-1">إذا تبغى، الخطوة الجاية أحول أي مشروع منها إلى صفحة فعلية مستقلة.</div>
-                </div>
-              </div>
-            </div>
-          </div>
+            </Link>
+          ))}
         </div>
       </div>
     </section>
   );
 }
+
 
 function PatchNotes() {
   const patches = [
@@ -1619,18 +1531,7 @@ function LuxOracleChat() {
 }
 
 function Footer() {
-  return (
-    <footer className="border-t border-white/5 py-10 px-6 md:px-10">
-      <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4 text-[10px] tracking-[0.3em] uppercase text-muted-foreground">
-        <span>© 2026 Lux Addons</span>
-        <div className="flex items-center gap-6">
-          <Link to="/rules" className="hover:text-foreground transition">Rules</Link>
-          <a href="#faq" className="hover:text-foreground transition">FAQ</a>
-          <span>FiveM · Built with passion</span>
-        </div>
-      </div>
-    </footer>
-  );
+  return <LuxFooter />;
 }
 
 function Index() {
