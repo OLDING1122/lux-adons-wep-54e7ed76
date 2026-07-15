@@ -90,6 +90,7 @@ function Navbar() {
           <li><Link to="/news" className="hover:text-foreground transition">News</Link></li>
           <li><a href="#team" className="hover:text-foreground transition">Team</a></li>
           <li><a href="#roadmap" className="hover:text-foreground transition">Roadmap</a></li>
+          <li><a href="#projects-lux" className="font-arabic hover:text-foreground transition">مشاريع LUX</a></li>
           <li><a href="#streams" className="hover:text-foreground transition">Streams</a></li>
           <li><Link to="/chronicle" className="hover:text-foreground transition">Chronicle</Link></li>
           <li><Link to="/rules" className="hover:text-foreground transition">Rules</Link></li>
@@ -1139,6 +1140,89 @@ function Roadmap() {
   );
 }
 
+function ProjectsLux() {
+  return (
+    <section id="projects-lux" className="relative py-28 px-6 md:px-10 border-t border-white/5 overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-10 right-1/4 size-[420px] rounded-full blur-3xl opacity-20 bg-[radial-gradient(circle,oklch(0.55_0.18_260),transparent_60%)]" />
+        <div className="absolute bottom-0 left-1/4 size-[340px] rounded-full blur-3xl opacity-10 bg-[radial-gradient(circle,oklch(0.78_0.08_85),transparent_60%)]" />
+      </div>
+
+      <div className="relative max-w-7xl mx-auto">
+        <div className="flex items-end justify-between flex-wrap gap-6 mb-14">
+          <div>
+            <div className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground mb-3">— Lux Projects</div>
+            <h2 className="font-display text-4xl md:text-6xl font-bold tracking-tight">مشاريع LUX</h2>
+          </div>
+          <p dir="rtl" className="font-arabic text-muted-foreground max-w-lg leading-[2]">
+            هنا راح تنعرض مشاريع Lux القادمة والمنتجات الخاصة اللي نقدر نطورها داخل الموقع.
+          </p>
+        </div>
+
+        <div className="grid lg:grid-cols-[1.15fr_0.85fr] gap-6 items-stretch">
+          <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.05] to-white/[0.02] p-8 md:p-10 hover:border-white/25 transition">
+            <div className="absolute inset-0 opacity-[0.06] mix-blend-overlay" style={{ backgroundImage: "url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'200\'><filter id=\'n\'><feTurbulence baseFrequency=\'0.9\' numOctaves=\'2\' stitchTiles=\'stitch\'/></filter><rect width=\'100%\' height=\'100%\' filter=\'url(%23n)\'/></svg>')" }} />
+            <div className="relative flex items-center justify-between gap-4 flex-wrap">
+              <div className="inline-flex items-center gap-2 rounded-full border border-amber-200/20 bg-amber-200/5 px-3 py-1.5 text-[10px] tracking-[0.3em] uppercase text-amber-200/90">
+                <span className="size-1.5 rounded-full bg-amber-200 animate-pulse" />
+                Project 01
+              </div>
+              <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground">LUX LABS</div>
+            </div>
+
+            <div className="relative mt-8">
+              <h3 className="font-display text-3xl md:text-5xl font-bold tracking-tight">أداة توليد الصور</h3>
+              <p dir="rtl" className="font-arabic text-muted-foreground text-[15px] leading-[2] mt-5 max-w-2xl">
+                مشروع Lux الأول: أداة مخصصة لتوليد الصور بالذكاء الاصطناعي داخل هوية Lux.
+                الهدف منها إنشاء صور احترافية وسريعة للمشاريع، الإعلانات، البنرات، والأفكار البصرية من داخل نفس المنصة.
+              </p>
+
+              <div dir="rtl" className="grid sm:grid-cols-2 gap-3 mt-8">
+                <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
+                  <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-2">Use Case 01</div>
+                  <div className="font-arabic text-sm text-foreground/90">تصميم صور دعائية وبنرات للسيرفرات والمتاجر.</div>
+                </div>
+                <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
+                  <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-2">Use Case 02</div>
+                  <div className="font-arabic text-sm text-foreground/90">إنشاء مفاهيم بصرية سريعة للمحتوى والأفكار الجديدة.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] p-6 md:p-8">
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/30" />
+            <div className="relative h-full flex flex-col">
+              <div className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground mb-4">Preview Card</div>
+              <div className="rounded-2xl border border-white/10 bg-background/60 p-5 mb-5">
+                <div className="aspect-[4/3] rounded-xl border border-white/10 bg-[radial-gradient(circle_at_50%_20%,rgba(255,255,255,0.16),transparent_20%),linear-gradient(135deg,rgba(124,92,255,0.35),rgba(0,0,0,0.1),rgba(231,201,128,0.15))] grid place-items-center overflow-hidden">
+                  <div className="text-center px-6">
+                    <div className="font-display text-2xl md:text-3xl font-bold tracking-tight">Image Generator</div>
+                    <div dir="rtl" className="font-arabic text-sm text-foreground/75 mt-2 leading-[1.9]">
+                      مساحة أولية لعرض مشروع أداة توليد الصور داخل قسم مشاريع LUX.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-3 mt-auto">
+                <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3">
+                  <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground">Status</div>
+                  <div dir="rtl" className="font-arabic text-sm mt-1">جاهز للربط لاحقًا بواجهة أو صفحة مستقلة.</div>
+                </div>
+                <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3">
+                  <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground">Next Step</div>
+                  <div dir="rtl" className="font-arabic text-sm mt-1">إذا تبغى، الخطوة الجاية أحوله إلى صفحة فعلية لتوليد الصور.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function PatchNotes() {
   const patches = [
     {
@@ -1527,6 +1611,7 @@ function Index() {
         <Story />
         <Team />
         <Roadmap />
+        <ProjectsLux />
         <PatchNotes />
         <Streams />
         <FAQ />
